@@ -18,32 +18,40 @@ const projects = [
 ];
 
 const mockImages = [
-    'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1509631179647-017733169335?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1515886657613-985c9e39d10f?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1400&q=85',
-    'https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=1400&q=85'
+    'asset/pics/Mockup.webp',
+    'asset/pics/9D6BE2F7-0FB4-404F-B5CC-BF0AAD47599A.webp',
+    'asset/pics/Brand Guidelines 1.0_0.webp',
+    'asset/pics/Brand Guidelines 1.0_0_png.webp',
+    'asset/pics/Coaster.webp',
+    'asset/pics/Gearlab.webp',
+    'asset/pics/Hako-10_0.webp',
+    'asset/pics/Hako-12_0.webp',
+    'asset/pics/Hako-5.webp',
+    'asset/pics/HAKO64541_0.webp',
+    'asset/pics/Kodangs Mockup33_0.webp',
+    'asset/pics/Kodangs-1_0.webp',
+    'asset/pics/Kodangs-2_0.webp',
+    'asset/pics/Kodangs-3_0.webp',
+    'asset/pics/Kozen 3.webp'
 ];
 projects.forEach((p, i) => { p.image = mockImages[i % mockImages.length]; });
+projects[0].image = 'asset/pics/Gearlab.webp';
 
 const galleryExtra = [
-    'https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=900&q=82',
-    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=82',
-    'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=82',
-    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=82',
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=82',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=82',
-    'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=82',
-    'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?auto=format&fit=crop&w=900&q=82',
-    'https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&w=900&q=82'
+    'asset/pics/Kozen31.webp',
+    'asset/pics/Kozen4.webp',
+    'asset/pics/Large Ice Tray-1.jpg.webp',
+    'asset/pics/Large Ice Tray-2.jpg.webp',
+    'asset/pics/Large Ice Tray-5.jpg.webp',
+    'asset/pics/Mockup 3.webp',
+    'asset/pics/Mockup-7.webp',
+    'asset/pics/Orthomedix Final Design 1_0.webp',
+    'asset/pics/Orthomedix Final Design 2_0.webp',
+    'asset/pics/Orthomedix Final Design 3_0.webp',
+    'asset/pics/Screenshot 2569-06-15 at 13.50.32.webp',
+    'asset/pics/Star Ice Tray-1.webp',
+    'asset/pics/Star Ice Tray-4.webp',
+    'asset/pics/Stellar Logo Mockup 2.webp',
+    'asset/pics/Ultraxonic 57.webp',
+    'asset/pics/Ultraxonic 88.webp'
 ];

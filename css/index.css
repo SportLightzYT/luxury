@@ -37,30 +37,47 @@ body::after {
 .gallery-layer.layer-3 { z-index: 11; }
 .gallery-set { position: relative; width: 100%; padding: 0 22px; }
 .gallery-item {
-    position: absolute; overflow: visible; cursor: pointer;
-    opacity: 0; transform: translateY(60px) scale(0.97);
-    transition: opacity 0.9s var(--ease-luxury), transform 0.9s var(--ease-luxury);
-    background: #f5f5f3; box-shadow: 0 0 0 1px rgba(5,5,5,0.05);
+    position: absolute; overflow: hidden; cursor: pointer;
+    opacity: 0; transform: translateY(40px) scale(0.98);
+    transition: opacity 0.7s var(--ease-luxury), transform 0.7s var(--ease-luxury), box-shadow 0.5s ease;
+    background: #f5f5f3;
+    box-shadow: 0 8px 32px rgba(5,5,5,0.12), 0 0 0 1px rgba(5,5,5,0.05);
     isolation: isolate; will-change: transform, opacity;
+    border-radius: 0;
 }
 .gallery-item.in-view { opacity: 1; transform: translateY(0) scale(1); }
-.gallery-item::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.34); mix-blend-mode: overlay; }
-.gallery-label {
-    position: absolute; left: 0; top: -19px; z-index: 4; max-width: 96%;
-    font-size: 10px; font-weight: 600; line-height: 0.92; letter-spacing: -0.02em;
-    text-transform: uppercase; color: var(--text); white-space: nowrap; overflow: hidden;
-    text-overflow: ellipsis; pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s var(--ease-luxury);
+.gallery-item::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2); mix-blend-mode: overlay; }
+.gallery-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.1) 40%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.85;
+    transition: opacity 0.6s var(--ease-luxury);
 }
-.gallery-label::before { content: attr(data-index); display: inline-block; margin-right: 7px; color: rgba(5,5,5,0.38); }
+.gallery-item:hover::after {
+    opacity: 1;
+}
+.gallery-label {
+    position: absolute; left: 20px; bottom: 20px; z-index: 4; max-width: 88%;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: #ffffff; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; pointer-events: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: opacity 0.4s var(--ease-luxury), transform 0.4s var(--ease-luxury);
+}
+.gallery-label::before { content: attr(data-index); display: inline-block; margin-right: 8px; color: rgba(255, 255, 255, 0.55); font-weight: 400; }
 .gallery-item img {
     width: 100%; height: 100%; object-fit: cover; display: block;
     transform: scale(1.001); filter: contrast(1.04) saturate(0.94);
-    transition: transform 0.75s var(--ease-luxury), filter 0.75s var(--ease-luxury);
+    transition: transform 1.2s var(--ease-luxury), filter 1.2s var(--ease-luxury);
     user-select: none; -webkit-user-drag: none;
 }
-.gallery-item:hover img { transform: scale(1.045); filter: contrast(1.18) saturate(1.04) brightness(0.9); }
-.gallery-item:hover .gallery-label { text-decoration: underline; text-underline-offset: 2px; transform: translateX(4px); }
+.gallery-item:hover img { transform: scale(1.08); filter: contrast(1.1) saturate(1.02); }
+.gallery-item:hover { box-shadow: 0 16px 48px rgba(5,5,5,0.22), 0 0 0 1px rgba(5,5,5,0.08); z-index: 50 !important; }
+.gallery-item:hover .gallery-label { transform: translateY(-3px); }
 
 
 /* ========== TYPOGRAPHY OVERLAY ========== */
@@ -88,6 +105,10 @@ body::after {
     animation-delay: 0.52s;
     position: relative;
     margin-top: 96px;
+    pointer-events: auto;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
 }
 .typography-visual::before {
     content: '';
@@ -95,6 +116,27 @@ body::after {
     inset: 12px -12px -12px 12px;
     border: 1px solid rgba(5, 5, 5, 0.12);
     pointer-events: none;
+    z-index: 5;
+}
+.hero-image-wrap {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0;
+}
+.hero-image-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.1) 40%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.85;
+    transition: opacity 0.6s var(--ease-luxury);
+}
+.typography-visual:hover .hero-image-wrap::after {
+    opacity: 1;
 }
 .typography-visual__image {
     width: 100%;
@@ -103,6 +145,42 @@ body::after {
     object-fit: cover;
     filter: contrast(1.04) saturate(0.95);
     box-shadow: 0 30px 80px rgba(5, 5, 5, 0.12);
+    transition: transform 1.2s var(--ease-luxury), filter 1.2s var(--ease-luxury);
+}
+.typography-visual:hover .typography-visual__image {
+    transform: scale(1.05);
+    filter: contrast(1.08) saturate(1.02);
+}
+.hero-label-container {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    z-index: 4;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    transition: transform 0.6s var(--ease-luxury);
+    text-align: left;
+}
+.hero-label-kicker {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.7);
+}
+.hero-label-title {
+    font-size: clamp(14px, 1.5vw, 22px);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: var(--font-body);
+}
+.typography-visual:hover .hero-label-container {
+    transform: translateY(-4px);
 }
 .typography-visual--small {
     position: absolute;
@@ -112,7 +190,7 @@ body::after {
     aspect-ratio: 3 / 4;
     opacity: 0.92;
     z-index: 2;
-    border-radius: 12px;
+    border-radius: 0;
     overflow: hidden;
     box-shadow: 0 22px 54px rgba(5, 5, 5, 0.12);
     border: 1px solid rgba(5, 5, 5, 0.08);

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+img { border-radius: 0 !important; }
 
 :root {
     --bg: #ffffff;

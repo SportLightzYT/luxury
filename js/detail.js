@@ -18,7 +18,6 @@ class DetailView {
         
         this.initFooterWord();
         this.bindEvents();
-        this.bindScrollBounds();
         
         // Setup observer for footer reveal
         const footerObserver = new IntersectionObserver(entries => {
@@ -56,27 +55,7 @@ class DetailView {
         });
         window.addEventListener('keydown', e => { if (e.key === 'Escape') window.location.href = 'index.html'; });
     }
-    bindScrollBounds() {
-        const atTop = () => window.scrollY <= 0;
-        const atBottom = () => Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight;
 
-        window.addEventListener('wheel', (e) => {
-            if ((atTop() && e.deltaY < 0) || (atBottom() && e.deltaY > 0)) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        let touchStartY = 0;
-        window.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-        window.addEventListener('touchmove', (e) => {
-            const touchDelta = touchStartY - e.touches[0].clientY;
-            if ((atTop() && touchDelta < 0) || (atBottom() && touchDelta > 0)) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-    }
     render(idx) {
         if (!projects[idx]) return;
         const p = projects[idx];
@@ -91,7 +70,7 @@ class DetailView {
         this.linkEl.href = p.link;
         this.counterEl.textContent = `${c} / ${t}`;
         this.footerCounterEl.textContent = `${c} / ${t}`;
-        this.captionEl.textContent = `${p.category} — ${p.year}`;
+        this.captionEl.textContent = p.title;
         
         this.descriptionEl.classList.remove('in-view');
         // Split description into lines and create fade-in spans
@@ -127,13 +106,20 @@ class DetailView {
         this.renderGallery(idx);
     }
     renderGallery(projectIdx) {
+        const p = projects[projectIdx];
         // 3 rows of 2 columns = 6 images (taller aspect-ratio)
         let html = '<div class="dv-gallery-head"><span>Additional Frames</span><span>09 Images</span></div>';
         for (let row = 0; row < 3; row++) {
             html += '<div class="dv-gallery-row">';
             for (let col = 0; col < 3; col++) {
                 const imgIdx = (row * 3 + col + projectIdx) % galleryExtra.length;
-                html += `<figure class="dv-gallery-item"><img src="${galleryExtra[imgIdx]}" alt="Frame" loading="lazy" /></figure>`;
+                const frameNum = String(row * 3 + col + 1).padStart(2, '0');
+                html += `
+                    <figure class="dv-gallery-item">
+                        <span class="dv-gallery-label">${p.title} — Frame ${frameNum}</span>
+                        <img src="${galleryExtra[imgIdx]}" alt="Frame" loading="lazy" />
+                    </figure>
+                `;
             }
             html += '</div>';
         }

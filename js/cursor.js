@@ -2,6 +2,7 @@ class CustomCursor {
     constructor() {
         this.cursor = document.createElement('div');
         this.cursor.className = 'custom-cursor';
+        this.cursor.style.pointerEvents = 'none';
         document.body.appendChild(this.cursor);
         
         this.clientX = -100;
