@@ -24,13 +24,33 @@ class DetailView {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('in-view');
+                    footerObserver.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
         document.querySelectorAll('.footer-reveal').forEach(el => footerObserver.observe(el));
     }
+
+    initLenis() {
+        if (typeof Lenis === 'undefined') return;
+        this.lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            wheelMultiplier: 1.0,
+            touchMultiplier: 2,
+            infinite: false
+        });
+        const raf = (time) => {
+            this.lenis.raf(time);
+            requestAnimationFrame(raf);
+        };
+        requestAnimationFrame(raf);
+    }
+
     initFooterWord() {
         const wordEl = document.getElementById('dvFooterWord');
+        if(!wordEl) return;
         const text = wordEl.textContent;
         wordEl.innerHTML = '';
         text.split('').forEach((ch, i) => {
@@ -38,7 +58,7 @@ class DetailView {
             span.className = 'letter';
             span.textContent = ch;
             const center = (text.length - 1) / 2;
-            const t = (i - center) / center;
+            const t = center === 0 ? 0 : (i - center) / center;
             const yOff = 32 * t * t;
             const rot = 7 * t;
             span.style.setProperty('--ax', '0px');
@@ -48,85 +68,126 @@ class DetailView {
             wordEl.appendChild(span);
         });
     }
+
     bindEvents() {
-        this.closeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'index.html';
-        });
+        if(this.closeBtn) {
+            this.closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'index.html';
+            });
+        }
         window.addEventListener('keydown', e => { if (e.key === 'Escape') window.location.href = 'index.html'; });
     }
 
     render(idx) {
-        if (!projects[idx]) return;
+        if (!projects || !projects[idx]) return;
         const p = projects[idx];
         const c = String(idx + 1).padStart(2, '0');
         const t = String(projects.length).padStart(2, '0');
-        this.imageEl.src = p.image;
-        this.imageEl.alt = p.title;
-        this.titleEl.textContent = p.title;
-        this.yearEl.textContent = p.year;
-        this.typeEl.textContent = p.category;
-        this.clientEl.textContent = p.client;
-        this.linkEl.href = p.link;
-        this.counterEl.textContent = `${c} / ${t}`;
-        this.footerCounterEl.textContent = `${c} / ${t}`;
-        this.captionEl.textContent = p.title;
+        if(this.imageEl) {
+            this.imageEl.src = p.image;
+            this.imageEl.alt = p.title;
+        }
+        if(this.titleEl) this.titleEl.textContent = p.title;
+        if(this.yearEl) this.yearEl.textContent = p.year;
+        if(this.typeEl) this.typeEl.textContent = p.category;
+        if(this.clientEl) this.clientEl.textContent = p.client;
+        if(this.linkEl) this.linkEl.href = p.link;
+        if(this.counterEl) this.counterEl.textContent = `${c} / ${t}`;
+        if(this.footerCounterEl) this.footerCounterEl.textContent = `${c} / ${t}`;
+        if(this.captionEl) this.captionEl.textContent = p.title;
         
-        this.descriptionEl.classList.remove('in-view');
-        // Split description into lines and create fade-in spans
-        const lines = p.description.split('\n');
-        this.descriptionEl.innerHTML = '';
-        lines.forEach((line, i) => {
-            const span = document.createElement('span');
-            span.className = 'desc-line';
-            span.textContent = line;
-            span.style.transitionDelay = (0.2 + i * 0.1) + 's';
-            this.descriptionEl.appendChild(span);
-        });
+        if(this.descriptionEl) {
+            this.descriptionEl.classList.remove('in-view');
+            const lines = p.description.split('\n');
+            this.descriptionEl.innerHTML = '';
+            lines.forEach((line, i) => {
+                const span = document.createElement('span');
+                span.className = 'desc-line';
+                span.textContent = line;
+                span.style.transitionDelay = (0.2 + i * 0.1) + 's';
+                this.descriptionEl.appendChild(span);
+            });
 
-        // Observe description for scroll fade
-        setTimeout(() => {
-            const descObserver = new IntersectionObserver(entries => {
-                if (entries[0].isIntersecting) {
-                    entries[0].target.classList.add('in-view');
-                    descObserver.disconnect();
-                }
-            }, { threshold: 0.2 });
-            descObserver.observe(this.descriptionEl);
-        }, 100);
+            setTimeout(() => {
+                const descObserver = new IntersectionObserver(entries => {
+                    if (entries[0].isIntersecting) {
+                        entries[0].target.classList.add('in-view');
+                        descObserver.disconnect();
+                    }
+                }, { threshold: 0.2 });
+                descObserver.observe(this.descriptionEl);
+            }, 100);
+        }
         
-        this.tagsEl.innerHTML = '';
-        p.tags.forEach(tag => {
-            const span = document.createElement('span');
-            span.className = 'dv-tag';
-            span.textContent = tag;
-            this.tagsEl.appendChild(span);
-        });
+        if(this.tagsEl) {
+            this.tagsEl.innerHTML = '';
+            p.tags.forEach(tag => {
+                const span = document.createElement('span');
+                span.className = 'dv-tag';
+                span.textContent = tag;
+                this.tagsEl.appendChild(span);
+            });
+        }
         
         this.renderGallery(idx);
     }
+
     renderGallery(projectIdx) {
+        if(!this.galleryEl || !projects[projectIdx] || !galleryExtra) return;
         const p = projects[projectIdx];
-        // 3 rows of 2 columns = 6 images (taller aspect-ratio)
-        let html = '<div class="dv-gallery-head"><span>Additional Frames</span><span>09 Images</span></div>';
+        
+        // Remove innerHTML injection and use safe DOM
+        this.galleryEl.innerHTML = '';
+        
+        const headDiv = document.createElement('div');
+        headDiv.className = 'dv-gallery-head';
+        const span1 = document.createElement('span');
+        span1.textContent = 'Additional Frames';
+        const span2 = document.createElement('span');
+        span2.textContent = '09 Images';
+        headDiv.appendChild(span1);
+        headDiv.appendChild(span2);
+        this.galleryEl.appendChild(headDiv);
+
         for (let row = 0; row < 3; row++) {
-            html += '<div class="dv-gallery-row">';
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'dv-gallery-row';
             for (let col = 0; col < 3; col++) {
                 const imgIdx = (row * 3 + col + projectIdx) % galleryExtra.length;
                 const frameNum = String(row * 3 + col + 1).padStart(2, '0');
-                html += `
-                    <figure class="dv-gallery-item">
-                        <span class="dv-gallery-label">${p.title} — Frame ${frameNum}</span>
-                        <img src="${galleryExtra[imgIdx]}" alt="Frame" loading="lazy" />
-                    </figure>
-                `;
+                
+                const figure = document.createElement('figure');
+                figure.className = 'dv-gallery-item';
+                
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'dv-gallery-label';
+                labelSpan.textContent = `${p.title} — Frame ${frameNum}`;
+                
+                const img = document.createElement('img');
+                img.src = galleryExtra[imgIdx];
+                img.alt = 'Frame';
+                img.loading = 'lazy';
+                // Add safe dimensions to prevent CLS
+                img.width = 800;
+                img.height = 1000;
+                
+                figure.appendChild(labelSpan);
+                figure.appendChild(img);
+                rowDiv.appendChild(figure);
             }
-            html += '</div>';
+            this.galleryEl.appendChild(rowDiv);
         }
-        this.galleryEl.innerHTML = html;
+
         const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('in-view'); });
+            entries.forEach(entry => { 
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view'); 
+                    observer.unobserve(entry.target);
+                }
+            });
         }, { threshold: 0.1, rootMargin: '40px 0px' });
+        
         this.galleryEl.querySelectorAll('.dv-gallery-head, .dv-gallery-item').forEach((el, i) => {
             el.style.transitionDelay = (i * 0.08) + 's';
             observer.observe(el);
@@ -136,11 +197,9 @@ class DetailView {
 
 window.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('page-loaded');
-    
-    const params = new URLSearchParams(window.location.search);
-    let id = parseInt(params.get('id'));
-    if (isNaN(id) || id < 0 || id >= projects.length) id = 0;
-    
-    const detailView = new DetailView();
-    detailView.render(id);
+    const view = new DetailView();
+    view.initLenis();
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = parseInt(urlParams.get('id'));
+    view.render(!isNaN(id) ? id : 0);
 });

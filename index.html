@@ -6,18 +6,26 @@
     <title>DETROIT STYLE — Visual Culture Archive</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/index.css">
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+
+    
 </head>
 <body>
+    
+    <div class="scroll-spacer"></div>
     <nav class="nav">
-        <a href="index.html" class="nav-logo" style="display: flex; align-items: center;">
-            <img src="asset/creatrex logo-01_0.png" alt="Creatrex Logo" style="height: 16px; width: auto;">
+        <a href="index.html" class="nav-logo">
+            <img src="asset/creatrex logo-01_0.png" alt="Creatrex Logo" width="100" height="16">
         </a>
         <div class="nav-links">
-            <a href="#" class="nav-link">Talents</a>
-            <a href="#" class="nav-link">Projects</a>
-            <a href="#" class="nav-link">Services</a>
-            <a href="#" class="nav-link">Insights</a>
-            <a href="#" class="nav-link">Contact</a>
+            <a href="talents.html" class="nav-link">Talents</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="services.html" class="nav-link">Services</a>
+            <a href="insights.html" class="nav-link">Insights</a>
+            <a href="contact.html" class="nav-link">Contact</a>
         </div>
     </nav>
 
@@ -26,15 +34,26 @@
             <img src="asset/creatrex logo-02_0.png" alt="Creatrex Logo" class="typography-logo">
         </div>
         <div class="typography-bottom"><p class="typography-sub">AI production house in Paris, crafting culture for luxury brands. Print & Film. AI. 3D. CGI.</p></div>
-        <a href="detail.html?id=0" class="typography-visual" id="heroVisualLink">
-            <div class="hero-image-wrap">
-                <img src="asset/pics/Mockup.webp" alt="Featured visual" class="typography-visual__image">
-            </div>
-            <div class="hero-label-container">
-                <span class="hero-label-kicker">Featured Project</span>
-                <span class="hero-label-title">Solitude in Motion</span>
-            </div>
-        </a>
+        <div class="hero-visuals-container" id="heroVisuals">
+            <a href="detail.html?id=0" class="typography-visual" id="heroVisualLink">
+                <div class="hero-image-wrap">
+                    <img src="asset/pics/Mockup.webp" alt="Featured visual" class="typography-visual__image">
+                </div>
+                <div class="hero-label-container">
+                    <span class="hero-label-kicker">Featured Project</span>
+                    <span class="hero-label-title">Solitude in Motion</span>
+                </div>
+            </a>
+            <a href="detail.html?id=1" class="typography-visual hero-visual-secondary" id="heroVisualLink2">
+                <div class="hero-image-wrap">
+                    <img src="asset/pics/Kozen 3.webp" alt="Featured visual" class="typography-visual__image">
+                </div>
+                <div class="hero-label-container">
+                    <span class="hero-label-kicker">Featured Project</span>
+                    <span class="hero-label-title">Concrete Poetry</span>
+                </div>
+            </a>
+        </div>
     </div>
 
     <aside class="index-panel">
@@ -50,7 +69,20 @@
         <div class="gallery-layer layer-3"><div class="gallery-set" data-layer="3"></div></div>
     </div>
 
+    
+    
+            
+    
     <script src="js/data.js"></script>
+    <script src="js/split-text.js"></script>
+    <script src="js/footer.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/projects.js"></script>
+    <script src="js/detail.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/insights.js"></script>
+    <script src="js/talents.js"></script>
+    <script src="js/contact.js"></script>
+    
 </body>
 </html>

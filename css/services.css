@@ -1,0 +1,192 @@
+/* ========== SERVICES PAGE STYLE ========== */
+
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--bg);
+}
+
+/* Grid overlay background to match index/detail pages */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle at 18% 14%, rgba(5,5,5,0.04), transparent 26%),
+        radial-gradient(circle at 82% 10%, rgba(5,5,5,0.03), transparent 22%),
+        linear-gradient(to right, rgba(5,5,5,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(5,5,5,0.03) 1px, transparent 1px);
+    background-size: auto, auto, 7.142vw 7.142vw, 7.142vw 7.142vw;
+    opacity: 0.7;
+}
+
+.services-page-container {
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+/* Hero Section */
+.services-hero {
+    padding: clamp(160px, 20vw, 240px) 4vw clamp(80px, 10vw, 120px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.services-kicker {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+
+.services-headline {
+    font-family: var(--font-body);
+    font-size: clamp(50px, 10vw, 140px);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0;
+}
+
+/* Services List */
+.services-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--hairline);
+    margin-bottom: clamp(100px, 15vw, 200px);
+}
+
+.service-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: flex-start;
+    padding: clamp(40px, 6vw, 80px) 4vw;
+    border-bottom: 1px solid var(--hairline);
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.4s var(--ease-luxury), padding-left 0.6s var(--ease-luxury), padding-right 0.6s var(--ease-luxury);
+    
+    /* Scroll Reveal defaults */
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.service-row.in-view {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury), background-color 0.4s var(--ease-luxury), padding-left 0.6s var(--ease-luxury), padding-right 0.6s var(--ease-luxury);
+}
+
+.service-num-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.service-num {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(20px, 2vw, 28px);
+    color: var(--muted);
+    line-height: 1;
+}
+
+.service-arrow {
+    font-size: 16px;
+    color: var(--text);
+    opacity: 0;
+    transform: translate(-10px, 10px);
+    transition: opacity 0.4s var(--ease-luxury), transform 0.4s var(--ease-luxury);
+}
+
+.service-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+}
+
+.service-title {
+    font-family: var(--font-body);
+    font-size: clamp(40px, 6vw, 84px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0;
+    transition: transform 0.6s var(--ease-luxury), color 0.4s var(--ease-luxury);
+}
+
+.service-desc {
+    font-size: clamp(14px, 1.5vw, 18px);
+    line-height: 1.6;
+    color: var(--muted);
+    font-weight: 400;
+    transition: color 0.4s var(--ease-luxury);
+}
+
+/* Hover Effects */
+@media (hover: hover) {
+    .services-list:hover .service-row:not(:hover) {
+        opacity: 0.3;
+    }
+    
+    .service-row:hover {
+        padding-left: 6vw;
+        padding-right: 2vw;
+    }
+    
+    .service-row:hover .service-title {
+        transform: translateX(12px);
+    }
+    
+    .service-row:hover .service-desc {
+        color: var(--text);
+    }
+    
+    .service-row:hover .service-arrow {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+
+
+
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .service-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .service-num-wrap {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .service-arrow {
+        opacity: 1;
+        transform: none;
+    }
+    .hover-reveal-img-container {
+        display: none !important; /* Disable hover image on mobile */
+    }
+}
+
+/* ========== INTEGRATED FOOTER ADJUSTMENT ========== */
+.dv-footer {
+    border-top: 1px solid var(--hairline);
+    padding: clamp(80px, 12vw, 140px) 4vw 0;
+}

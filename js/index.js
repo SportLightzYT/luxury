@@ -1,28 +1,46 @@
-// ======================= INFINITE GALLERY =======================
 class InfiniteGallery {
     constructor() {
         this.layers = [];
-        this.targetScroll = 0;
-        this.currentScroll = 0;
-        this.lastScroll = -1;
-        this.ease = 0.10;             // responsive without lag (was 0.055 — too sluggish)
-        this.layerSpeeds = [1.0, 0.65, 0.35];
+        this.layerEls = [];
+        this.layerSpeeds = [0.85, 0.48, 0.28];
         this.setHeights = [];
-        this.isPaused = false;
-        this.rafId = null;
         this.typoOverlay = document.getElementById('typoOverlay');
-        this.layerEls = null; // cached after DOM is ready
-        // physics-based momentum
-        this.velocity = 0;
-        this.friction = 0.82;         // faster decay — velocity drains cleanly (was 0.90)
+        this.heroVisuals = document.getElementById('heroVisuals');
+        this.introText = document.querySelectorAll('.typography-top, .typography-bottom');
+        this.lenis = null;
     }
+
     init() {
         this.buildLayers();
         this.positionImages();
-        this.layerEls = Array.from(document.querySelectorAll('.gallery-layer')); // cache once
+        this.layerEls = Array.from(document.querySelectorAll('.gallery-layer'));
+        this.initLenis();
         this.bindEvents();
-        this.animate();
     }
+
+    initLenis() {
+        if (typeof Lenis === 'undefined') return;
+        this.lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            wheelMultiplier: 1.0,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+        const raf = (time) => {
+            this.lenis.raf(time);
+            requestAnimationFrame(raf);
+        };
+        requestAnimationFrame(raf);
+        this.lenis.on('scroll', (e) => {
+            this.updateLayers(e.scroll);
+        });
+        if (typeof ScrollTrigger !== 'undefined') {
+            this.lenis.on('scroll', ScrollTrigger.update);
+        }
+    }
+
     buildLayers() {
         const sets = [
             { layer: 1, projects: [0, 3, 6, 9, 12] },
@@ -32,6 +50,7 @@ class InfiniteGallery {
         sets.forEach(set => {
             const layerEl = document.querySelector(`.gallery-layer.layer-${set.layer}`);
             const setEl = layerEl.querySelector('.gallery-set');
+            const fragment = document.createDocumentFragment();
             set.projects.forEach(projIdx => {
                 const p = projects[projIdx];
                 const item = document.createElement('div');
@@ -45,12 +64,16 @@ class InfiniteGallery {
                 img.src = p.image;
                 img.alt = p.title;
                 img.loading = 'eager';
+                img.width = 400;
+                img.height = 512;
                 item.appendChild(label);
                 item.appendChild(img);
-                setEl.appendChild(item);
+                fragment.appendChild(item);
             });
+            setEl.appendChild(fragment);
         });
     }
+
     positionImages() {
         const vw = window.innerWidth;
         const isMobile = vw < 760;
@@ -59,16 +82,12 @@ class InfiniteGallery {
 
         const padding = isMobile ? 12 : 32;
         const colGap = isMobile ? 8 : 24;
-
-        // Divide viewport into 3 distinct columns — one per layer
         const totalUsable = vw - padding * 2 - colGap * 2;
         const colWidth = Math.floor(totalUsable / 3);
         const imgW = Math.min(colWidth - 16, isMobile ? 240 : 360);
         const imgH = Math.round(imgW * 1.28);
-        // Use positive gap to avoid ugly physical overlaps, rely on column staggering instead
         const vertGap = isMobile ? 40 : 80;
 
-        // X center of each column
         const colCenters = [
             padding + colWidth * 0.5,
             padding + colWidth + colGap + colWidth * 0.5,
@@ -78,22 +97,16 @@ class InfiniteGallery {
         layers.forEach((layer, li) => {
             const setEl = layer.querySelector('.gallery-set:not(.is-clone)');
             const items = setEl.querySelectorAll('.gallery-item');
-
             const cx = colCenters[li];
-            // Stagger start Y per layer so they don't line up exactly
             let currentY = 40 + li * Math.round(imgH * 0.4);
 
             items.forEach((item, idx) => {
                 item.style.width = imgW + 'px';
                 item.style.height = imgH + 'px';
-
-                // Remove horizontal jitter to prevent columns from bleeding into each other
                 let x = Math.round(cx - imgW / 2);
                 x = Math.max(padding, Math.min(vw - imgW - padding, x));
-
                 item.style.left = x + 'px';
                 item.style.top = currentY + 'px';
-                // Raise z-index per item so later items layer on top naturally
                 item.style.zIndex = idx + 1;
                 currentY += imgH + vertGap;
             });
@@ -108,107 +121,45 @@ class InfiniteGallery {
             layer.appendChild(clone);
         });
 
-        // Make all items visible immediately — the gallery is always in motion
         document.querySelectorAll('.gallery-item').forEach(el => el.classList.add('in-view'));
     }
+
     bindEvents() {
-        // Normalise deltaY across pixel / line / page deltaMode AND trackpad vs mouse
-        const normaliseDelta = (e) => {
-            let delta = e.deltaY;
-            if (e.deltaMode === 1) delta *= 28;                      // line mode (Firefox mouse)
-            if (e.deltaMode === 2) delta *= window.innerHeight * 0.8; // page mode
-            return delta;
-        };
-
-        window.addEventListener('wheel', e => {
-            if (this.isPaused) return;
-            e.preventDefault();
-            const delta = normaliseDelta(e);
-            this.velocity += delta * 0.5;
-            // Cap immediately here — multiple wheel events fire between rAF frames,
-            // stacking velocity to 200+ before the clamp in animate() ever runs.
-            this.velocity = Math.max(-60, Math.min(60, this.velocity));
-        }, { passive: false });
-
-        let lastTouchY = 0;
-        let lastTouchTime = 0;
-
-        window.addEventListener('touchstart', e => {
-            if (this.isPaused) return;
-            lastTouchY = e.touches[0].clientY;
-            lastTouchTime = Date.now();
-            this.velocity = 0; // reset on new touch
-        }, { passive: true });
-
-        window.addEventListener('touchmove', e => {
-            if (this.isPaused) return;
-            e.preventDefault();
-            const now = Date.now();
-            const dy = lastTouchY - e.touches[0].clientY;
-            const dt = Math.max(1, now - lastTouchTime);
-            this.velocity = (dy / dt) * 18; // px/frame approximation
-            this.targetScroll = Math.max(0, this.targetScroll + dy * 0.9);
-            lastTouchY = e.touches[0].clientY;
-            lastTouchTime = now;
-        }, { passive: false });
-
-        window.addEventListener('resize', () => this.positionImages());
-
+        window.addEventListener('resize', () => {
+            this.positionImages();
+        });
         document.addEventListener('click', e => {
             const item = e.target.closest('.gallery-item');
             if (item) {
                 const idx = parseInt(item.dataset.projectIndex);
-                if (!isNaN(idx)) {
-                    window.location.href = `detail.html?id=${idx}`;
-                }
+                if (!isNaN(idx)) window.location.href = `detail.html?id=${idx}`;
             }
         });
     }
-    animate() {
-        if (!this.isPaused) {
-            // Apply friction to velocity each frame
-            this.velocity *= this.friction;
-            // Secondary clamp — matches the cap in the wheel handler
-            this.velocity = Math.max(-60, Math.min(60, this.velocity));
 
-            // Accumulate velocity into target
-            this.targetScroll = Math.max(0, this.targetScroll + this.velocity);
-
-            // Lerp currentScroll toward targetScroll (smooth deceleration)
-            const diff = this.targetScroll - this.currentScroll;
-            this.currentScroll += diff * this.ease;
-
-            // Stop micro-jitter when motion is negligible
-            if (Math.abs(diff) < 0.05 && Math.abs(this.velocity) < 0.05) {
-                this.currentScroll = this.targetScroll;
-                this.velocity = 0;
-            }
-
-            // ONLY update DOM if scroll position actually changed
-            if (Math.abs(this.lastScroll - this.currentScroll) > 0.01) {
-                this.layerEls.forEach((layer, i) => {
-                    const speed = this.layerSpeeds[i];
-                    const sh = this.setHeights[i] || 10000;
-                    const off = (this.currentScroll * speed) % sh;
-                    layer.style.transform = `translate3d(0, ${-off}px, 0)`;
-                });
-
-                // Typography overlay fade-out
-                if (this.typoOverlay) {
-                    const progress = Math.min(1, this.currentScroll / 300);
-                    const eased = progress * progress;
-                    const opacity = 1 - eased;
-                    this.typoOverlay.style.opacity = opacity;
-                    this.typoOverlay.style.transform = `translateY(${-eased * 55}px) scale(${1 - eased * 0.03})`;
-                    this.typoOverlay.style.visibility = opacity <= 0.04 ? 'hidden' : 'visible';
-                }
-                this.lastScroll = this.currentScroll;
-            }
+    updateLayers(scroll) {
+        if (!this.layerEls.length) return;
+        const s = Math.max(0, scroll);
+        this.layerEls.forEach((layer, i) => {
+            const speed = this.layerSpeeds[i];
+            const sh = this.setHeights[i] || 1000;
+            const off = (s * speed) % sh;
+            layer.style.transform = `translate3d(0, ${-off}px, 0)`;
+        });
+        if (this.heroVisuals) {
+            this.heroVisuals.style.transform = `translate3d(0, ${-s}px, 0)`;
         }
-        this.rafId = requestAnimationFrame(() => this.animate());
+        if (this.introText.length) {
+            const threshold = 600;
+            const progress = Math.min(1, s / threshold);
+            const opacity = 1 - progress;
+            this.introText.forEach(el => {
+                el.style.opacity = opacity;
+                el.style.transform = `translateY(${-progress * 80}px)`;
+                el.style.visibility = opacity <= 0 ? 'hidden' : 'visible';
+            });
+        }
     }
-    pause() { this.isPaused = true; }
-    resume() { this.isPaused = false; }
 }
 
 window.addEventListener('DOMContentLoaded', () => {

@@ -1,0 +1,212 @@
+/* ========== TALENTS PAGE STYLE ========== */
+
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--bg);
+}
+
+/* Grid overlay background */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle at 18% 14%, rgba(5,5,5,0.04), transparent 26%),
+        radial-gradient(circle at 82% 10%, rgba(5,5,5,0.03), transparent 22%),
+        linear-gradient(to right, rgba(5,5,5,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(5,5,5,0.03) 1px, transparent 1px);
+    background-size: auto, auto, 7.142vw 7.142vw, 7.142vw 7.142vw;
+    opacity: 0.7;
+}
+
+.talents-page-container {
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+/* Hero Section */
+.talents-hero {
+    padding: clamp(160px, 20vw, 240px) 4vw clamp(80px, 10vw, 120px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.talents-kicker {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+
+.talents-headline {
+    font-family: var(--font-body);
+    font-size: clamp(50px, 10vw, 140px);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0;
+}
+
+/* Talents Grid */
+.talents-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: clamp(40px, 6vw, 120px) 24px;
+    padding: 0 4vw clamp(100px, 15vw, 200px);
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+/* Talent Card */
+.talent-card {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
+    opacity: 0;
+    transform: translateY(60px);
+}
+
+.talent-card.in-view {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1s var(--ease-luxury), transform 1.2s var(--ease-luxury);
+}
+
+/* Layout Variations */
+.talent-card.featured {
+    grid-column: 2 / 12;
+    margin-bottom: 60px;
+}
+
+.talent-card.half-left {
+    grid-column: 1 / 7;
+}
+
+.talent-card.half-right {
+    grid-column: 7 / 13;
+    margin-top: 120px; /* Asymmetric offset */
+}
+
+.talent-card.center-small {
+    grid-column: 4 / 10;
+    margin-top: 40px;
+}
+
+/* Image Wrapper */
+.talent-image-wrap {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background: #f0f0ee;
+    aspect-ratio: 3 / 4;
+}
+
+.talent-card.featured .talent-image-wrap {
+    aspect-ratio: 16 / 9;
+}
+
+.talent-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.2s var(--ease-luxury), filter 0.8s var(--ease-luxury);
+    filter: grayscale(10%) contrast(1.05); /* Slight editorial filter */
+}
+
+/* Typography Overlap */
+.talent-content {
+    position: absolute;
+    bottom: -30px;
+    left: -20px;
+    z-index: 5;
+    pointer-events: none; /* Let hover pass through to card */
+}
+
+.talent-card.half-right .talent-content {
+    left: auto;
+    right: -20px;
+    text-align: right;
+}
+
+.talent-name {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: clamp(40px, 6vw, 100px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--bg); /* To contrast with dark image or vice versa, let's use outline */
+    margin: 0 0 12px 0;
+    /* Luxury outline text effect to overlap image */
+    -webkit-text-stroke: 1px var(--text);
+    color: transparent;
+    transition: color 0.6s var(--ease-luxury), -webkit-text-stroke 0.6s var(--ease-luxury), transform 0.6s var(--ease-luxury);
+}
+
+.talent-role {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text);
+    margin: 0;
+    background: var(--bg);
+    display: inline-block;
+    padding: 4px 12px;
+}
+
+/* Hover Interactions */
+@media (hover: hover) {
+    .talent-card:hover .talent-image-wrap img {
+        transform: scale(1.05);
+        filter: grayscale(0%) contrast(1.05);
+    }
+    
+    .talent-card:hover .talent-name {
+        color: var(--text);
+        -webkit-text-stroke: 1px var(--text);
+        transform: translateY(-10px);
+    }
+}
+
+/* ========== INTEGRATED FOOTER ADJUSTMENT ========== */
+.dv-footer {
+    border-top: 1px solid var(--hairline);
+    padding: clamp(80px, 12vw, 140px) 4vw 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 980px) {
+    .talent-card.featured,
+    .talent-card.half-left,
+    .talent-card.half-right,
+    .talent-card.center-small {
+        grid-column: 1 / 13;
+        margin-top: 0;
+        margin-bottom: 60px;
+    }
+    
+    .talent-content {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        margin-top: -20px;
+    }
+    
+    .talent-card.half-right .talent-content {
+        left: 0;
+        right: auto;
+        text-align: left;
+    }
+}

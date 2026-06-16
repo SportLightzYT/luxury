@@ -1,0 +1,144 @@
+/* =========================================================
+   PERFORMANCE & RESPONSIVE OVERRIDES
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. GPU ACCELERATION (Hardware Rendering)
+   --------------------------------------------------------- */
+.gpu-accelerated,
+.scroll-reveal,
+.gallery-item,
+.line-child,
+.project-image-col img,
+.insight-image-wrap img,
+.talent-image-wrap img,
+.dv-image-wrap img {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------
+   2. MOBILE & TABLET RESPONSIVENESS
+   --------------------------------------------------------- */
+@media screen and (max-width: 980px) {
+    /* Typography Overrides */
+    .talents-headline, .contact-headline, .insights-headline, .services-headline {
+        font-size: clamp(3rem, 12vw, 5rem) !important;
+        margin-left: 20px !important;
+        line-height: 0.9 !important;
+    }
+    .talents-kicker, .contact-kicker, .insights-kicker, .services-kicker {
+        margin-left: 20px !important;
+    }
+
+    /* Navigation */
+    .nav {
+        flex-wrap: wrap;
+        padding: 12px 16px !important;
+    }
+    .nav-links {
+        width: 100%;
+        margin-top: 12px;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    
+    /* Footer */
+    .dv-footer-content {
+        grid-template-columns: 1fr !important;
+        gap: 60px !important;
+        padding: 40px 20px !important;
+    }
+    .dv-footer-word {
+        font-size: 16vw !important;
+    }
+
+    /* Home / Index */
+    .typography-overlay {
+        grid-template-columns: 1fr !important;
+        padding: 24px 16px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 40px;
+    }
+    .typography-bottom {
+        margin-top: 10vh !important;
+    }
+    .hero-visuals-container {
+        display: none !important; /* Stacked away on small screens to simplify */
+    }
+
+    /* Projects */
+    .project-row {
+        flex-direction: column !important;
+        padding: 40px 16px !important;
+        height: auto !important;
+    }
+    .project-text-col {
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .project-image-col {
+        width: 100% !important;
+        height: 60vh !important;
+        margin-top: 30px;
+        position: relative !important;
+        transform: none !important;
+    }
+    .project-number-wrap {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        margin-bottom: 20px;
+    }
+
+    /* Insights & Talents Grids */
+    .insights-grid, .talents-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 20px !important;
+        gap: 60px !important;
+    }
+    .insight-card, .talent-card {
+        width: 100% !important;
+        position: relative !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 !important;
+        grid-column: auto !important;
+        grid-row: auto !important;
+    }
+    .insight-image-wrap, .talent-image-wrap {
+        height: 60vh !important;
+        aspect-ratio: auto !important;
+    }
+
+    /* Detail Page */
+    .detail-view {
+        padding: 20px !important;
+    }
+    .dv-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 20px;
+        padding: 20px 0 !important;
+    }
+    .dv-meta-grid {
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+        padding: 40px 0 !important;
+    }
+    .dv-gallery-row {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    .dv-image-wrap {
+        height: 50vh !important;
+    }
+}

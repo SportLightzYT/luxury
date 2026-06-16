@@ -1,4 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+/* ========== GLOBAL STYLES & IMPORTS ========== */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital@0;1&display=swap');
+
+/* Page Specific CSS for Barba.js SPA */
+@import url('./index.css');
+@import url('./detail.css');
+@import url('./projects.css');
+@import url('./services.css');
+@import url('./insights.css');
+@import url('./talents.css');
+@import url('./contact.css');
+
+/* Performance & Responsive Overrides (Must load last) */
+@import url('./responsive.css');
+
+/* Lenis & Scroll Utilities */
+html.lenis, html.lenis body { height: auto; width: 100vw; overflow-x: hidden; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
+.scroll-spacer { height: 20000px; pointer-events: none; visibility: hidden; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 img { border-radius: 0 !important; }
@@ -36,7 +57,22 @@ body {
 }
 .nav a { color: var(--text); text-decoration: none; pointer-events: auto; width: fit-content; transition: opacity 0.25s ease, transform 0.25s var(--ease-luxury); }
 .nav a:hover { opacity: 0.45; transform: translateY(-1px); }
-.nav-logo { grid-column: 1; font-size: 11px; font-weight: 700; font-family: var(--font-body); letter-spacing: -0.02em; text-transform: uppercase; }
+.nav-logo {
+    grid-column: 1;
+    font-family: var(--font-display);
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo img {
+    height: 16px;
+    width: auto;
+}
 .nav-logo::before { content: '○'; display: inline-block; margin-right: 8px; transform: translateY(-1px); }
 .nav-links { grid-column: 2 / 4; justify-self: end; display: flex; align-items: flex-start; gap: clamp(18px, 4vw, 72px); }
 .nav-link { font-size: 10px; font-weight: 600; line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; }
@@ -55,6 +91,9 @@ body {
 body.page-loaded {
     opacity: 1;
 }
+
+
+
 
 
 

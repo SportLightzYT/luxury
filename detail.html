@@ -6,18 +6,31 @@
     <title>Project Detail — DETROIT STYLE</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/detail.css">
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis-smooth { scroll-behavior: auto !important; }
+        .lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis-stopped { overflow: hidden; }
+        .lenis-scrolling iframe { pointer-events: none; }
+    </style>
 </head>
 <body>
+    
     <div class="detail-view">
         <nav class="nav">
-            <a href="index.html" class="nav-logo" style="display: flex; align-items: center;">
-                <img src="asset/creatrex logo-01_0.png" alt="Creatrex" style="height: 16px; width: auto;">
-            </a>
+            <a href="index.html" class="nav-logo">
+            <img src="asset/creatrex logo-01_0.png" alt="Creatrex Logo" width="100" height="16">
+        </a>
             <div class="nav-links">
-                <a href="#" class="nav-link">Talents</a>
-                <a href="#" class="nav-link">Projects</a>
-                <a href="#" class="nav-link">Services</a>
-                <a href="#" class="nav-link">Insights</a>
+                <a href="talents.html" class="nav-link">Talents</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="insights.html" class="nav-link">Insights</a>
                 <a href="index.html" class="nav-link nav-close" id="dvClose">Close</a>
             </div>
         </nav>
@@ -84,7 +97,20 @@
         </footer>
     </div>
 
+    
+    
+            
+    
     <script src="js/data.js"></script>
+    <script src="js/split-text.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/projects.js"></script>
     <script src="js/detail.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/insights.js"></script>
+    <script src="js/talents.js"></script>
+    <script src="js/contact.js"></script>
+    
 </body>
 </html>
