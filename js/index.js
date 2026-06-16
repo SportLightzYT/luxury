@@ -5,7 +5,7 @@ class InfiniteGallery {
         this.targetScroll = 0;
         this.currentScroll = 0;
         this.lastScroll = -1;
-        this.ease = 0.055;            // silkier — lower = smoother deceleration
+        this.ease = 0.10;             // responsive without lag (was 0.055 — too sluggish)
         this.layerSpeeds = [1.0, 0.65, 0.35];
         this.setHeights = [];
         this.isPaused = false;
@@ -13,7 +13,7 @@ class InfiniteGallery {
         this.typoOverlay = document.getElementById('typoOverlay');
         // physics-based momentum
         this.velocity = 0;
-        this.friction = 0.90;
+        this.friction = 0.82;         // faster decay — velocity drains cleanly (was 0.90)
     }
     init() {
         this.buildLayers();
@@ -122,8 +122,10 @@ class InfiniteGallery {
             if (this.isPaused) return;
             e.preventDefault();
             const delta = normaliseDelta(e);
-            // Feed into velocity rather than directly into targetScroll
             this.velocity += delta * 0.5;
+            // Cap immediately here — multiple wheel events fire between rAF frames,
+            // stacking velocity to 200+ before the clamp in animate() ever runs.
+            this.velocity = Math.max(-60, Math.min(60, this.velocity));
         }, { passive: false });
 
         let lastTouchY = 0;
@@ -164,8 +166,8 @@ class InfiniteGallery {
         if (!this.isPaused) {
             // Apply friction to velocity each frame
             this.velocity *= this.friction;
-            // Hard clamp to prevent huge jumps on fast trackpad flicks
-            this.velocity = Math.max(-100, Math.min(100, this.velocity));
+            // Secondary clamp — matches the cap in the wheel handler
+            this.velocity = Math.max(-60, Math.min(60, this.velocity));
 
             // Accumulate velocity into target
             this.targetScroll = Math.max(0, this.targetScroll + this.velocity);
