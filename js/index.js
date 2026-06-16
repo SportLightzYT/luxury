@@ -11,6 +11,7 @@ class InfiniteGallery {
         this.isPaused = false;
         this.rafId = null;
         this.typoOverlay = document.getElementById('typoOverlay');
+        this.layerEls = null; // cached after DOM is ready
         // physics-based momentum
         this.velocity = 0;
         this.friction = 0.82;         // faster decay — velocity drains cleanly (was 0.90)
@@ -18,6 +19,7 @@ class InfiniteGallery {
     init() {
         this.buildLayers();
         this.positionImages();
+        this.layerEls = Array.from(document.querySelectorAll('.gallery-layer')); // cache once
         this.bindEvents();
         this.animate();
     }
@@ -184,8 +186,7 @@ class InfiniteGallery {
 
             // ONLY update DOM if scroll position actually changed
             if (Math.abs(this.lastScroll - this.currentScroll) > 0.01) {
-                const layers = document.querySelectorAll('.gallery-layer');
-                layers.forEach((layer, i) => {
+                this.layerEls.forEach((layer, i) => {
                     const speed = this.layerSpeeds[i];
                     const sh = this.setHeights[i] || 10000;
                     const off = (this.currentScroll * speed) % sh;
