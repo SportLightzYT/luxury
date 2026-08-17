@@ -1,12 +1,11 @@
 /* ========== INSIGHTS PAGE STYLE ========== */
-
 body {
     overflow-x: hidden;
     overflow-y: auto;
     background: var(--bg);
 }
 
-/* Grid overlay background to match index/detail pages */
+/* Grid overlay background */
 body::before {
     content: '';
     position: fixed;
@@ -25,7 +24,7 @@ body::before {
 .insights-page-container {
     width: 100%;
     position: relative;
-    z-index: 10;
+    z-index: 1; /* ✅ แก้ไข: ลด z-index จาก 10 เหลือ 1 */
 }
 
 /* Hero Section */
@@ -75,8 +74,6 @@ body::before {
     text-decoration: none;
     color: var(--text);
     position: relative;
-    
-    /* Scroll Reveal defaults */
     opacity: 0;
     transform: translateY(40px);
 }
@@ -235,10 +232,12 @@ body::before {
         flex-direction: column;
         gap: 32px;
     }
+    
     .insight-card.featured .insight-image-wrap,
     .insight-card.featured .insight-content {
         width: 100%;
     }
+    
     .insight-card.half,
     .insight-card.third,
     .insight-card.offset {

@@ -2,25 +2,14 @@
    PERFORMANCE & RESPONSIVE OVERRIDES
    ========================================================= */
 
-/* ---------------------------------------------------------
-   1. GPU ACCELERATION (Hardware Rendering)
-   --------------------------------------------------------- */
-.gpu-accelerated,
-.scroll-reveal,
-.gallery-item,
-.line-child,
-.project-image-col img,
-.insight-image-wrap img,
-.talent-image-wrap img,
-.dv-image-wrap img {
-    will-change: transform, opacity;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
+/* GPU hints only for elements that animate every frame */
+.gallery-layer,
+.hero-visuals-container {
+    will-change: transform;
 }
 
 /* ---------------------------------------------------------
-   2. MOBILE & TABLET RESPONSIVENESS
+   MOBILE & TABLET RESPONSIVENESS
    --------------------------------------------------------- */
 @media screen and (max-width: 980px) {
     /* Typography Overrides */

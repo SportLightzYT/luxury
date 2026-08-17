@@ -1,5 +1,4 @@
 /* ========== TALENTS PAGE STYLE ========== */
-
 body {
     overflow-x: hidden;
     overflow-y: auto;
@@ -25,7 +24,7 @@ body::before {
 .talents-page-container {
     width: 100%;
     position: relative;
-    z-index: 10;
+    z-index: 1; /* ✅ แก้ไข: ลด z-index จาก 10 เหลือ 1 เพื่อไม่ให้ Container ทับ Header */
 }
 
 /* Hero Section */
@@ -130,7 +129,7 @@ body::before {
     bottom: -30px;
     left: -20px;
     z-index: 5;
-    pointer-events: none; /* Let hover pass through to card */
+    pointer-events: none; /* ✅ แก้ไข: ปิดคอมเมนต์ให้ถูกต้อง CSS จะได้ทำงาน */
 }
 
 .talent-card.half-right .talent-content {
@@ -146,7 +145,7 @@ body::before {
     line-height: 0.9;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    color: var(--bg); /* To contrast with dark image or vice versa, let's use outline */
+    color: var(--bg); 
     margin: 0 0 12px 0;
     /* Luxury outline text effect to overlap image */
     -webkit-text-stroke: 1px var(--text);
@@ -172,7 +171,7 @@ body::before {
         transform: scale(1.05);
         filter: grayscale(0%) contrast(1.05);
     }
-    
+
     .talent-card:hover .talent-name {
         color: var(--text);
         -webkit-text-stroke: 1px var(--text);
@@ -196,14 +195,14 @@ body::before {
         margin-top: 0;
         margin-bottom: 60px;
     }
-    
+
     .talent-content {
         position: relative;
         bottom: 0;
         left: 0;
         margin-top: -20px;
     }
-    
+
     .talent-card.half-right .talent-content {
         left: 0;
         right: auto;

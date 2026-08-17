@@ -29,19 +29,28 @@ class GlobalFooter {
     }
 
     initRevealObserver() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        document.querySelectorAll('.footer-reveal').forEach(el => observer.observe(el));
+        const reveals = document.querySelectorAll('.footer-reveal');
+        if (!reveals.length) return;
+
+        if (typeof IntersectionObserver !== 'undefined') {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '150px 0px', threshold: 0.01 });
+
+            reveals.forEach(el => observer.observe(el));
+        } else {
+            reveals.forEach(el => el.classList.add('in-view'));
+        }
     }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new GlobalFooter());
+} else {
     new GlobalFooter();
-});
+}

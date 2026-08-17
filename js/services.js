@@ -1,5 +1,4 @@
-// ======================= SERVICES PAGE (NATIVE SMOOTH SCROLL) =======================
-
+// ======================= SERVICES PAGE LOGIC =======================
 class ServicesController {
     constructor() {
         this.lenis = null;
@@ -11,28 +10,14 @@ class ServicesController {
     }
 
     initLenis() {
-        if (typeof Lenis === 'undefined') return;
-        this.lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
-            wheelMultiplier: 1.0,
-            touchMultiplier: 2,
-            infinite: false
-        });
-        const raf = (time) => {
-            this.lenis.raf(time);
-            requestAnimationFrame(raf);
-        };
-        requestAnimationFrame(raf);
-        if (typeof ScrollTrigger !== 'undefined') {
-            this.lenis.on('scroll', ScrollTrigger.update);
-        }
+        if (typeof ScrollManager === 'undefined') return;
+        this.scrollManager = new ScrollManager();
+        this.scrollManager.init();
+        this.lenis = this.scrollManager.getLenis();
     }
 
     initScrollReveal() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-        gsap.registerPlugin(ScrollTrigger);
         const revealElements = document.querySelectorAll('.scroll-reveal');
         revealElements.forEach(el => {
             gsap.fromTo(el,

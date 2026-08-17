@@ -1,17 +1,4 @@
-/* ========== GLOBAL STYLES & IMPORTS ========== */
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital@0;1&display=swap');
-
-/* Page Specific CSS for Barba.js SPA */
-@import url('./index.css');
-@import url('./detail.css');
-@import url('./projects.css');
-@import url('./services.css');
-@import url('./insights.css');
-@import url('./talents.css');
-@import url('./contact.css');
-
-/* Performance & Responsive Overrides (Must load last) */
-@import url('./responsive.css');
+/* ========== GLOBAL STYLES ========== */
 
 /* Lenis & Scroll Utilities */
 html.lenis, html.lenis body { height: auto; width: 100vw; overflow-x: hidden; }
@@ -19,7 +6,17 @@ html.lenis, html.lenis body { height: auto; width: 100vw; overflow-x: hidden; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 .lenis.lenis-scrolling iframe { pointer-events: none; }
-.scroll-spacer { height: 20000px; pointer-events: none; visibility: hidden; }
+.scroll-spacer { min-height: calc(100vh + 1px); pointer-events: none; visibility: hidden; }
+
+/* Hide scrollbar (shared across pages) */
+html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+}
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 img { border-radius: 0 !important; }
@@ -74,14 +71,13 @@ body {
     width: auto;
 }
 .nav-logo::before { content: '○'; display: inline-block; margin-right: 8px; transform: translateY(-1px); }
+.nav-logo.has-image::before { display: none; }
 .nav-links { grid-column: 2 / 4; justify-self: end; display: flex; align-items: flex-start; gap: clamp(18px, 4vw, 72px); }
 .nav-link { font-size: 10px; font-weight: 600; line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; }
 .nav-link::after { content: ' ↗'; font-size: 8px; opacity: 0.55; }
 .nav-close { font-weight: 700; }
 .nav-close::after { content: ' ✕'; font-size: 7px; opacity: 0.7; }
 .nav-logo:has(img)::before { display: none; }
-
-/* ======================= GLOBAL UI EFFECTS ======================= */
 
 /* Page Intro Effect */
 body {
@@ -92,9 +88,16 @@ body.page-loaded {
     opacity: 1;
 }
 
-
-
-
-
-
-
+/* Common Background Grid Overlay */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, rgba(5,5,5,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(5,5,5,0.03) 1px, transparent 1px);
+    background-size: 100px 100px;
+    opacity: 1;
+}

@@ -37,6 +37,26 @@ const mockImages = [
 projects.forEach((p, i) => { p.image = mockImages[i % mockImages.length]; });
 projects[0].image = 'asset/pics/Gearlab.webp';
 
+const homeImages = [
+    'asset/pics/home-mockup.webp',
+    'asset/pics/home-9d6be2f7.webp',
+    'asset/pics/home-brand-guidelines.webp',
+    'asset/pics/home-brand-guidelines-png.webp',
+    'asset/pics/home-coaster.webp',
+    'asset/pics/home-gearlab.webp',
+    'asset/pics/home-hako-10.webp',
+    'asset/pics/home-hako-12.webp',
+    'asset/pics/home-hako-5.webp',
+    'asset/pics/home-hako-64541.webp',
+    'asset/pics/home-kodangs-mockup.webp',
+    'asset/pics/home-kodangs-1.webp',
+    'asset/pics/home-kodangs-2.webp',
+    'asset/pics/home-kodangs-3.webp',
+    'asset/pics/home-kozen-3.webp'
+];
+projects.forEach((p, i) => { p.homeImage = homeImages[i % homeImages.length]; });
+projects[0].homeImage = 'asset/pics/home-gearlab.webp';
+
 const galleryExtra = [
     'asset/pics/Kozen31.webp',
     'asset/pics/Kozen4.webp',
@@ -55,3 +75,7 @@ const galleryExtra = [
     'asset/pics/Ultraxonic 57.webp',
     'asset/pics/Ultraxonic 88.webp'
 ];
+
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}

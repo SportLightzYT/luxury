@@ -33,7 +33,6 @@ class SplitTextDIY {
 
     animate() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-        gsap.registerPlugin(ScrollTrigger);
         
         this.elements.forEach(el => {
             const children = el.querySelectorAll('.line-child');

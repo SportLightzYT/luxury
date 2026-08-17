@@ -1,14 +1,9 @@
 /* ========== PROJECTS PAGE STYLE ========== */
-
 body {
     overflow-x: hidden;
-    overflow-y: auto; /* Allow native scroll */
+    overflow-y: auto;
     background: var(--bg);
 }
-
-/* Hide Scrollbar for clean look */
-html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
-html { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* Grid overlay background to match index/detail pages */
 body::before {
@@ -26,11 +21,11 @@ body::before {
     opacity: 0.7;
 }
 
-/* projects container */
+/* Projects container */
 .projects-page-container {
     width: 100%;
     position: relative;
-    z-index: 10;
+    z-index: 1; /* ✅ แก้ไข: ลด z-index จาก 10 เหลือ 1 */
 }
 
 .projects-list {
@@ -53,8 +48,6 @@ body::before {
     transition: opacity 0.8s var(--ease-luxury), transform 0.8s var(--ease-luxury), border-color 0.4s ease;
     cursor: pointer;
     position: relative;
-    
-    /* Scroll reveal defaults */
     opacity: 0;
     transform: translateY(40px);
 }
@@ -199,10 +192,6 @@ body::before {
     transition: filter 0.8s var(--ease-luxury);
 }
 
-/* ========== INTERACTIVE HOVER EFFECTS ========== */
-
-/* Dimming non-hovered rows - Disabled so it doesn't break scroll visibility, using simple hover instead */
-
 /* Hovered Row Style */
 .project-row:hover {
     border-color: var(--text);
@@ -239,7 +228,6 @@ body::before {
 }
 
 /* ========== RESPONSIVE MEDIA QUERIES ========== */
-
 @media (max-width: 980px) {
     .projects-list {
         padding-top: 100px;
@@ -258,7 +246,7 @@ body::before {
     
     .project-image-col {
         aspect-ratio: 16 / 10;
-        order: 1; /* Image above text on tablets/mobile */
+        order: 1;
     }
     
     .project-text-col {

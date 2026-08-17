@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Archive 2026 — Monograph & Industrial Design Portfolio | CREATREX</title>
+    <meta name="description" content="Monograph 2026: Selected Industrial Design, Footwear Innovation, Sustainable Living Objects, and Corporate Identity Systems by Suppachok Thepkeaw.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital@0;1&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital@0;1&display=swap"></noscript>
+    <link rel="preload" href="asset/creatrex logo-01_0.webp" as="image">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/detail.css">
+    <link rel="stylesheet" href="css/archive.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="js/scroll-utils.js"></script>
+    <script defer src="js/archive.js"></script>
+</head>
+<body>
+    
+    <!-- Top Navigation Bar -->
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo has-image" aria-label="Creatrex Home">
+            <img src="asset/creatrex logo-01_0.webp" alt="Creatrex Logo" width="100" height="16" loading="eager">
+        </a>
+        <div class="nav-links">
+            <a href="talents.html" class="nav-link">Talents</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="archive.html" class="nav-link active" style="font-weight: 700;">Archive 2026</a>
+            <a href="services.html" class="nav-link">Services</a>
+            <a href="insights.html" class="nav-link">Insights</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <main class="archive-container">
+        <!-- Monograph Hero Header -->
+        <header class="archive-hero">
+            <div class="archive-header-tag">CREATREX MONOGRAPH ARCHIVE · EDITION 2026</div>
+            <div class="archive-title-wrap">
+                <h1 class="archive-main-title">SELECTED<br>WORKS 2026</h1>
+                <div>
+                    <p class="archive-hero-desc">
+                        A curated compendium of industrial design, athletic footwear engineering, sustainable lifestyle artifacts, and brand identity systems from the studio archive of Suppachok Thepkeaw.
+                    </p>
+                    <div class="archive-hero-meta">
+                        <span><em>Discipline</em> Industrial & Product Design</span>
+                        <span><em>Curated</em> 2018–2026</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Designer Profile Banner -->
+        <section class="designer-profile-banner" aria-label="Designer Profile">
+            <img src="asset/portfolio_2026/profile.webp" alt="Suppachok Thepkeaw" class="designer-profile-img" width="320" height="200" loading="eager" decoding="async">
+            <div class="designer-profile-info">
+                <h3>Suppachok Thepkeaw</h3>
+                <div class="designer-profile-role">Industrial Designer & Product Innovator · KMITL Architecture</div>
+                <p class="designer-profile-bio">
+                    Specializing in performance footwear systems, ergonomic medical apparatus, modular sustainable living products, and holistic corporate identity architecture. Grounded in functional user research and sculptural minimalism.
+                </p>
+                <div class="designer-accolades">
+                    <span class="accolade-badge gold">★ NCPD 2022 Outstanding Award Winner</span>
+                    <span class="accolade-badge">★ Breaker Best Design Award</span>
+                    <span class="accolade-badge">Bangkok Design Week (2020, 2021)</span>
+                    <span class="accolade-badge">Chiang Mai Design Week (2018)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Bar -->
+        <div class="archive-filter-bar" role="toolbar" aria-label="Category Filters">
+            <div class="archive-filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Projects (16)</button>
+                <button class="filter-btn" data-filter="footwear">Footwear & Athletics</button>
+                <button class="filter-btn" data-filter="product">Product & Living</button>
+                <button class="filter-btn" data-filter="furniture">Furniture & Spatial</button>
+                <button class="filter-btn" data-filter="brand">Brand & Packaging</button>
+            </div>
+            <div class="archive-counter-indicator" id="archiveCounter">16 Projects Displayed</div>
+        </div>
+
+        <!-- Project Grid Container -->
+        <div class="archive-grid" id="archiveGrid">
+            <!-- Dynamic project cards rendered by archive.js -->
+        </div>
+
+        <!-- Interactive Project Detail Modal -->
+        <div class="archive-modal" id="archiveModal" role="dialog" aria-modal="true" aria-label="Project Plates">
+            <div class="archive-modal-content">
+                <button class="archive-modal-close" id="archiveModalClose" aria-label="Close modal">✕</button>
+                <div class="archive-modal-body" id="archiveModalBody">
+                    <!-- Modal content populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Signature Full-Width Footer -->
+    <footer class="dv-footer">
+        <div class="dv-footer-content">
+            <div class="dv-footer-left footer-reveal" style="--footer-delay: 0.06s">
+                <h2 class="dv-footer-heading">CRAFTING CULTURE<br>THROUGH DESIGN <span class="dv-footer-figures">▮▮▮</span></h2>
+                <p class="dv-footer-copyright">© ALL RIGHTS RESERVED. 2026 CREATREX MONOGRAPH</p>
+                <div class="dv-footer-project-state">
+                    <span>Archive Edition</span>
+                    <span id="dvFooterCounter">01 / 16</span>
+                </div>
+            </div>
+            <div class="dv-footer-middle footer-reveal" style="--footer-delay: 0.16s">
+                <div class="dv-footer-contact">
+                    <a href="mailto:contact@creatrex-paris.com">CONTACT@CREATREX-PARIS.COM</a>
+                    <a href="mailto:portfolio@creatrex-paris.com">PORTFOLIO@CREATREX-PARIS.COM</a>
+                    <a href="tel:+33674180268">+33 6 74 18 02 68</a>
+                </div>
+                <nav class="dv-footer-social">
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+                    <a href="https://behance.net" target="_blank" rel="noopener noreferrer">BEHANCE</a>
+                </nav>
+            </div>
+            <div class="dv-footer-right footer-reveal" style="--footer-delay: 0.26s">
+                <div class="dv-footer-location"><h3>PARIS</h3><p>49 RUE DU FAUBOURG SAINT MARTIN, 75010 PARIS</p></div>
+                <div class="dv-footer-location"><h3>MARSEILLE</h3><p>4 PLACE FRANCIS CHIRAT, 13002 MARSEILLE</p></div>
+            </div>
+        </div>
+        <div class="dv-footer-word-wrap">
+            <div class="dv-footer-word" id="dvFooterWord">creatrex</div>
+        </div>
+    </footer>
+
+    <script defer src="js/footer.js"></script>
+</body>
+</html>

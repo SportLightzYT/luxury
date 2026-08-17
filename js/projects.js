@@ -1,3 +1,4 @@
+// ======================= PROJECTS PAGE LOGIC =======================
 class ProjectsController {
     constructor() {
         this.projectsList = document.getElementById('projectsList');
@@ -8,6 +9,7 @@ class ProjectsController {
         this.renderProjects();
         this.initLenis();
         this.initScrollReveal();
+        this.initCounterObserver();
         this.bindEvents();
     }
 
@@ -105,31 +107,44 @@ class ProjectsController {
     }
 
     initLenis() {
-        if (typeof Lenis === 'undefined') return;
-        this.lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
-            wheelMultiplier: 1.0,
-            touchMultiplier: 2,
-            infinite: false
-        });
-        const raf = (time) => {
-            this.lenis.raf(time);
-            requestAnimationFrame(raf);
-        };
-        requestAnimationFrame(raf);
-        this.lenis.on('scroll', () => {
-            this.updateCounter();
-        });
-        if (typeof ScrollTrigger !== 'undefined') {
-            this.lenis.on('scroll', ScrollTrigger.update);
-        }
+        if (typeof ScrollManager === 'undefined') return;
+        this.scrollManager = new ScrollManager();
+        this.scrollManager.init();
+        this.lenis = this.scrollManager.getLenis();
+    }
+
+    initCounterObserver() {
+        const rows = Array.from(document.querySelectorAll('.project-row'));
+        if (!rows.length) return;
+
+        const ratios = new Map();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => ratios.set(entry.target, entry.intersectionRatio));
+            let bestRow = rows[0];
+            let bestRatio = 0;
+            rows.forEach(row => {
+                const ratio = ratios.get(row) || 0;
+                if (ratio > bestRatio) {
+                    bestRatio = ratio;
+                    bestRow = row;
+                }
+            });
+            if (bestRatio > 0) {
+                const activeIdx = parseInt(bestRow.dataset.absIndex);
+                const c = String(activeIdx + 1).padStart(2, '0');
+                const t = String(10).padStart(2, '0');
+                document.querySelectorAll('#dvFooterCounter').forEach(el => {
+                    el.textContent = `${c} / ${t}`;
+                });
+            }
+        }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+
+        rows.forEach(row => observer.observe(row));
+        this.counterObserver = observer;
     }
 
     initScrollReveal() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-        gsap.registerPlugin(ScrollTrigger);
         const rows = document.querySelectorAll('.project-row');
         rows.forEach(row => {
             gsap.fromTo(row,
@@ -146,28 +161,6 @@ class ProjectsController {
                     }
                 }
             );
-        });
-    }
-
-    updateCounter() {
-        const rows = Array.from(document.querySelectorAll('.project-row'));
-        if (!rows.length) return;
-        const viewportCenter = window.innerHeight / 2;
-        let activeIdx = 0;
-        let minDiff = Infinity;
-        rows.forEach(row => {
-            const rect = row.getBoundingClientRect();
-            const rowCenter = rect.top + rect.height / 2;
-            const diff = Math.abs(rowCenter - viewportCenter);
-            if (diff < minDiff) {
-                minDiff = diff;
-                activeIdx = parseInt(row.dataset.absIndex);
-            }
-        });
-        const c = String(activeIdx + 1).padStart(2, '0');
-        const t = String(10).padStart(2, '0');
-        document.querySelectorAll('#dvFooterCounter').forEach(el => {
-            el.textContent = `${c} / ${t}`;
         });
     }
 
@@ -191,5 +184,4 @@ window.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('page-loaded');
     const ctrl = new ProjectsController();
     ctrl.init();
-    setTimeout(() => ctrl.updateCounter(), 100);
 });
