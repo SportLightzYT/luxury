@@ -9,10 +9,13 @@ class InfiniteGallery {
         this.introText = document.querySelectorAll('.typography-top, .typography-bottom');
         this.typoTop = document.querySelector('.typography-top');
         this.typoBottom = document.querySelector('.typography-bottom');
+        this.indexPanel = document.querySelector('.index-panel');
         this.lastLayerTransforms = [];
         this.lastHeroTransform = '';
         this.lastTypographyState = ['', ''];
+        this.lastIndexPanelState = '';
         this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        this.desktopLayoutQuery = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
         this.scrollSpacer = document.querySelector('.scroll-spacer');
         this.virtualScroll = 0;
         this.lastScrollY = 0;
@@ -22,6 +25,7 @@ class InfiniteGallery {
     }
 
     init() {
+        this.updateLayoutMode();
         this.buildLayers();
         this.positionImages();
         this.layerEls = Array.from(document.querySelectorAll('.gallery-layer'));
@@ -215,6 +219,10 @@ class InfiniteGallery {
             }, 150);
         });
 
+        this.desktopLayoutQuery.addEventListener('change', () => {
+            this.updateLayoutMode();
+        });
+
         document.addEventListener('click', e => {
             const item = e.target.closest('.gallery-item');
             if (item) {
@@ -222,6 +230,10 @@ class InfiniteGallery {
                 if (!isNaN(idx)) window.location.href = `detail.html?id=${idx}`;
             }
         });
+    }
+
+    updateLayoutMode() {
+        document.body.dataset.indexLayout = this.desktopLayoutQuery.matches ? 'desktop' : 'compact';
     }
 
     render(scrollState) {
@@ -275,6 +287,21 @@ class InfiniteGallery {
                 this.typoBottom.style.transform = `translate3d(0, ${yBottom}px, 0)`;
                 this.typoBottom.style.visibility = opacityBottom <= 0 ? 'hidden' : 'visible';
                 this.lastTypographyState[1] = bottomState;
+            }
+        }
+
+        // Keep the book reference for the opening, then leave the gallery clear.
+        if (this.indexPanel) {
+            const panelProgress = Math.min(1, Math.max(0, (s - 40) / 260));
+            const opacity = Math.max(0, 1 - panelProgress);
+            const y = -12 * panelProgress;
+            const panelState = `${opacity.toFixed(3)}|${y.toFixed(1)}|${opacity <= 0.01}`;
+
+            if (panelState !== this.lastIndexPanelState) {
+                this.indexPanel.style.opacity = opacity;
+                this.indexPanel.style.transform = `translate3d(0, ${y}px, 0)`;
+                this.indexPanel.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
+                this.lastIndexPanelState = panelState;
             }
         }
     }
