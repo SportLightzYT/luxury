@@ -18,8 +18,9 @@ class GlobalFooter {
             span.textContent = ch;
             const center = (text.length - 1) / 2;
             const t = center === 0 ? 0 : (i - center) / center;
-            const yOff = 32 * t * t;
-            const rot = 7 * t;
+            const maxArc = window.innerWidth <= 768 ? 16 : 32;
+            const yOff = maxArc * t * t;
+            const rot = (window.innerWidth <= 768 ? 4 : 7) * t;
             span.style.setProperty('--ax', '0px');
             span.style.setProperty('--ay', yOff.toFixed(1) + 'px');
             span.style.setProperty('--ar', rot.toFixed(1) + 'deg');

@@ -656,7 +656,10 @@
     }
 
     .pdf-reader-title {
-        font-size: clamp(38px, 15vw, 64px);
+        font-size: clamp(28px, 9vw, 54px);
+        word-break: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
     }
 
     .pdf-reader-status {

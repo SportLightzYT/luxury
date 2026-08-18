@@ -13,13 +13,27 @@
    --------------------------------------------------------- */
 @media screen and (max-width: 980px) {
     /* Typography Overrides */
-    .talents-headline, .contact-headline, .insights-headline, .services-headline {
-        font-size: clamp(3rem, 12vw, 5rem) !important;
-        margin-left: 20px !important;
-        line-height: 0.9 !important;
+    .talents-headline, .contact-headline, .insights-headline, .services-headline, .projects-headline, .pdf-reader-title {
+        font-size: clamp(2.2rem, 9vw, 4.2rem) !important;
+        margin-left: 0 !important;
+        line-height: 0.95 !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        max-width: 100% !important;
     }
-    .talents-kicker, .contact-kicker, .insights-kicker, .services-kicker {
-        margin-left: 20px !important;
+    .talents-kicker, .contact-kicker, .insights-kicker, .services-kicker, .project-kicker, .archive-header-tag {
+        margin-left: 0 !important;
+        word-break: break-word !important;
+    }
+    .contact-link {
+        font-size: clamp(16px, 5.2vw, 38px) !important;
+        word-break: break-all !important;
+        overflow-wrap: anywhere !important;
+        max-width: 100% !important;
+    }
+    .service-title, .talent-name, .insight-title, .project-title {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
     }
 
     /* Navigation is managed centrally by navigation.css */
@@ -28,11 +42,13 @@
     .dv-footer {
         align-items: center !important;
         text-align: center !important;
+        padding-bottom: clamp(56px, 10vw, 96px) !important;
+        padding-bottom: calc(clamp(56px, 10vw, 96px) + env(safe-area-inset-bottom, 0px)) !important;
     }
     .dv-footer-content {
         grid-template-columns: 1fr !important;
         gap: 36px !important;
-        padding: 40px 20px !important;
+        padding: 40px 20px 20px !important;
         text-align: center !important;
         align-items: center !important;
     }
@@ -50,6 +66,7 @@
         margin-left: auto !important;
         margin-right: auto !important;
         max-width: 100% !important;
+        word-break: break-word !important;
     }
     .dv-footer-copyright,
     .dv-footer-location p {
@@ -76,6 +93,7 @@
         text-align: center !important;
         width: fit-content !important;
         margin: 0 auto !important;
+        word-break: break-all !important;
     }
     .dv-footer-location {
         display: flex !important;
@@ -94,9 +112,11 @@
         justify-content: center !important;
         text-align: center !important;
         width: 100% !important;
+        padding-bottom: clamp(32px, 6vw, 60px) !important;
+        overflow: visible !important;
     }
     .dv-footer-word {
-        font-size: clamp(65px, 18vw, 150px) !important;
+        font-size: clamp(60px, 17vw, 140px) !important;
         text-align: center !important;
         margin: 0 auto !important;
     }

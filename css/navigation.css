@@ -163,7 +163,8 @@
 
 @media (max-width: 768px) {
     .dv-footer {
-        padding: 56px 16px 0 !important;
+        padding: 56px 16px clamp(56px, 10vw, 96px) !important;
+        padding-bottom: calc(clamp(56px, 10vw, 96px) + env(safe-area-inset-bottom, 0px)) !important;
         gap: 44px !important;
         align-items: center !important;
         text-align: center !important;
@@ -188,8 +189,9 @@
     .dv-footer-heading {
         max-width: 100% !important;
         margin: 0 auto 24px auto !important;
-        font-size: clamp(38px, 11vw, 68px) !important;
+        font-size: clamp(34px, 10vw, 64px) !important;
         text-align: center !important;
+        word-break: break-word !important;
     }
 
     .dv-footer-copyright {
@@ -230,6 +232,7 @@
         text-align: center !important;
         width: fit-content !important;
         margin: 0 auto !important;
+        word-break: break-all !important;
     }
 
     .dv-footer-right {
@@ -266,13 +269,14 @@
     .dv-footer-word-wrap {
         justify-content: center !important;
         text-align: center !important;
-        padding-bottom: 14px !important;
+        padding-bottom: clamp(32px, 6vw, 60px) !important;
         width: 100% !important;
+        overflow: visible !important;
     }
 
     .dv-footer-word {
-        font-size: clamp(70px, 21vw, 132px) !important;
-        line-height: .68 !important;
+        font-size: clamp(60px, 18vw, 120px) !important;
+        line-height: .75 !important;
         text-align: center !important;
         margin: 0 auto !important;
     }

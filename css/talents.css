@@ -46,13 +46,16 @@ body::before {
 
 .talents-headline {
     font-family: var(--font-body);
-    font-size: clamp(50px, 10vw, 140px);
+    font-size: clamp(48px, 10vw, 140px);
     font-weight: 500;
     line-height: 1.05;
     letter-spacing: -0.02em;
     text-transform: uppercase;
     color: var(--text);
     margin: 0;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Talents Grid */
@@ -182,7 +185,8 @@ body::before {
 /* ========== INTEGRATED FOOTER ADJUSTMENT ========== */
 .dv-footer {
     border-top: 1px solid var(--hairline);
-    padding: clamp(80px, 12vw, 140px) 4vw 0;
+    padding: clamp(80px, 12vw, 140px) 4vw clamp(56px, 10vw, 96px);
+    padding-bottom: calc(clamp(56px, 10vw, 96px) + env(safe-area-inset-bottom, 0px));
 }
 
 /* ========== RESPONSIVE ========== */

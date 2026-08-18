@@ -20,6 +20,7 @@ body::-webkit-scrollbar {
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 img { border-radius: 0 !important; }
+h1, h2, h3, h4, h5, h6, p, a, span { overflow-wrap: break-word; }
 
 :root {
     --bg: #ffffff;

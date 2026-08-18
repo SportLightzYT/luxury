@@ -46,14 +46,16 @@ body::before {
 
 .contact-headline {
     font-family: var(--font-body);
-    font-size: clamp(60px, 12vw, 160px);
+    font-size: clamp(48px, 10vw, 140px);
     font-weight: 500;
     line-height: 1;
     letter-spacing: -0.02em;
     text-transform: uppercase;
     color: var(--text);
     margin: 0;
-    max-width: 90vw;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Contact Grid */
@@ -192,7 +194,8 @@ body::before {
 /* ========== INTEGRATED FOOTER ADJUSTMENT ========== */
 .dv-footer {
     border-top: 1px solid var(--hairline);
-    padding: clamp(80px, 12vw, 140px) 4vw 0;
+    padding: clamp(80px, 12vw, 140px) 4vw clamp(56px, 10vw, 96px);
+    padding-bottom: calc(clamp(56px, 10vw, 96px) + env(safe-area-inset-bottom, 0px));
 }
 
 /* ========== RESPONSIVE ========== */
@@ -211,6 +214,12 @@ body::before {
         position: relative;
         top: 0;
     }
+
+    .contact-link {
+        font-size: clamp(20px, 5vw, 48px);
+        word-break: break-all;
+        overflow-wrap: anywhere;
+    }
 }
 
 @media (max-width: 640px) {
@@ -224,6 +233,10 @@ body::before {
         transform: none;
     }
     
+    .contact-link {
+        font-size: clamp(16px, 5.5vw, 36px);
+    }
+
     .contact-link::after {
         width: 100%;
         opacity: 0.2;

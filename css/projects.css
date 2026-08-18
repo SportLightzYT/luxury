@@ -104,6 +104,8 @@ body::before {
     text-transform: uppercase;
     color: var(--text);
     margin: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
     transition: transform 0.6s var(--ease-luxury), color 0.4s var(--ease-luxury);
 }
 
@@ -223,7 +225,8 @@ body::before {
 /* ========== INTEGRATED FOOTER ADJUSTMENT ========== */
 .dv-footer {
     border-top: 1px solid var(--hairline);
-    padding: clamp(80px, 12vw, 140px) 4vw 0;
+    padding: clamp(80px, 12vw, 140px) 4vw clamp(56px, 10vw, 96px);
+    padding-bottom: calc(clamp(56px, 10vw, 96px) + env(safe-area-inset-bottom, 0px));
     margin-top: clamp(60px, 8vw, 100px);
 }
 
