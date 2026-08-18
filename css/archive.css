@@ -575,8 +575,10 @@
 .pdf-viewer {
     width: min(1560px, 100%);
     margin: 0 auto;
-    background: #fff;
+    background: transparent;
     overflow: hidden;
+    line-height: 0;
+    font-size: 0;
 }
 
 .pdf-page {
@@ -584,25 +586,21 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    background: #fff;
+    background: transparent;
     line-height: 0;
+    font-size: 0;
+    border: 0;
     overflow: hidden;
 }
 
 .pdf-page::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    inset: 0;
-    background: #fff;
-    z-index: 0;
+    display: none;
 }
 
-.pdf-page canvas {
+.pdf-page canvas,
+.pdf-page img {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: block;
     width: 100%;
     height: auto;
@@ -610,7 +608,7 @@
     margin: 0;
     padding: 0;
     border: 0;
-    background: #fff;
+    outline: 0;
     vertical-align: bottom;
 }
 

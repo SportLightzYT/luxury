@@ -1,945 +1,149 @@
 /**
- * CREATREX — Continuous PDF Reader for Logofolio 2026
+ * CREATREX — Seamless Logofolio Continuous Reader (Zero-Gap)
  * ------------------------------------------------------------
- * Cloned from archive.js, pointing to logofolio-2026.pdf
+ * 49 curated high-resolution WebP pages stacked seamlessly with 0px spacing.
+ * Instant initial load + native lazy loading + IntersectionObserver page tracking.
  */
 
 (function () {
     'use strict';
 
-    const PDF_URL = 'logofolio-2026.pdf';
-
-    const PDFJS_VERSION = '3.11.174';
-
-    const PDFJS_SRC =
-        `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.js`;
-
-    const PDFJS_WORKER =
-        `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.js`;
-
-    const MAX_DPR = 2;
-    const PRELOAD_DISTANCE = 1600;
-    const RESIZE_DEBOUNCE = 180;
+    const PAGES = [
+        { index: 1, pageNum: 1, src: 'asset/logofolio-pages/page_01_num_01.webp' },
+        { index: 2, pageNum: 4, src: 'asset/logofolio-pages/page_02_num_04.webp' },
+        { index: 3, pageNum: 6, src: 'asset/logofolio-pages/page_03_num_06.webp' },
+        { index: 4, pageNum: 7, src: 'asset/logofolio-pages/page_04_num_07.webp' },
+        { index: 5, pageNum: 8, src: 'asset/logofolio-pages/page_05_num_08.webp' },
+        { index: 6, pageNum: 9, src: 'asset/logofolio-pages/page_06_num_09.webp' },
+        { index: 7, pageNum: 10, src: 'asset/logofolio-pages/page_07_num_10.webp' },
+        { index: 8, pageNum: 11, src: 'asset/logofolio-pages/page_08_num_11.webp' },
+        { index: 9, pageNum: 12, src: 'asset/logofolio-pages/page_09_num_12.webp' },
+        { index: 10, pageNum: 16, src: 'asset/logofolio-pages/page_10_num_16.webp' },
+        { index: 11, pageNum: 17, src: 'asset/logofolio-pages/page_11_num_17.webp' },
+        { index: 12, pageNum: 20, src: 'asset/logofolio-pages/page_12_num_20.webp' },
+        { index: 13, pageNum: 21, src: 'asset/logofolio-pages/page_13_num_21.webp' },
+        { index: 14, pageNum: 24, src: 'asset/logofolio-pages/page_14_num_24.webp' },
+        { index: 15, pageNum: 25, src: 'asset/logofolio-pages/page_15_num_25.webp' },
+        { index: 16, pageNum: 26, src: 'asset/logofolio-pages/page_16_num_26.webp' },
+        { index: 17, pageNum: 27, src: 'asset/logofolio-pages/page_17_num_27.webp' },
+        { index: 18, pageNum: 28, src: 'asset/logofolio-pages/page_18_num_28.webp' },
+        { index: 19, pageNum: 30, src: 'asset/logofolio-pages/page_19_num_30.webp' },
+        { index: 20, pageNum: 31, src: 'asset/logofolio-pages/page_20_num_31.webp' },
+        { index: 21, pageNum: 32, src: 'asset/logofolio-pages/page_21_num_32.webp' },
+        { index: 22, pageNum: 33, src: 'asset/logofolio-pages/page_22_num_33.webp' },
+        { index: 23, pageNum: 36, src: 'asset/logofolio-pages/page_23_num_36.webp' },
+        { index: 24, pageNum: 37, src: 'asset/logofolio-pages/page_24_num_37.webp' },
+        { index: 25, pageNum: 40, src: 'asset/logofolio-pages/page_25_num_40.webp' },
+        { index: 26, pageNum: 41, src: 'asset/logofolio-pages/page_26_num_41.webp' },
+        { index: 27, pageNum: 43, src: 'asset/logofolio-pages/page_27_num_43.webp' },
+        { index: 28, pageNum: 45, src: 'asset/logofolio-pages/page_28_num_45.webp' },
+        { index: 29, pageNum: 46, src: 'asset/logofolio-pages/page_29_num_46.webp' },
+        { index: 30, pageNum: 47, src: 'asset/logofolio-pages/page_30_num_47.webp' },
+        { index: 31, pageNum: 49, src: 'asset/logofolio-pages/page_31_num_49.webp' },
+        { index: 32, pageNum: 50, src: 'asset/logofolio-pages/page_32_num_50.webp' },
+        { index: 33, pageNum: 51, src: 'asset/logofolio-pages/page_33_num_51.webp' },
+        { index: 34, pageNum: 53, src: 'asset/logofolio-pages/page_34_num_53.webp' },
+        { index: 35, pageNum: 56, src: 'asset/logofolio-pages/page_35_num_56.webp' },
+        { index: 36, pageNum: 57, src: 'asset/logofolio-pages/page_36_num_57.webp' },
+        { index: 37, pageNum: 60, src: 'asset/logofolio-pages/page_37_num_60.webp' },
+        { index: 38, pageNum: 61, src: 'asset/logofolio-pages/page_38_num_61.webp' },
+        { index: 39, pageNum: 64, src: 'asset/logofolio-pages/page_39_num_64.webp' },
+        { index: 40, pageNum: 65, src: 'asset/logofolio-pages/page_40_num_65.webp' },
+        { index: 41, pageNum: 66, src: 'asset/logofolio-pages/page_41_num_66.webp' },
+        { index: 42, pageNum: 67, src: 'asset/logofolio-pages/page_42_num_67.webp' },
+        { index: 43, pageNum: 69, src: 'asset/logofolio-pages/page_43_num_69.webp' },
+        { index: 44, pageNum: 70, src: 'asset/logofolio-pages/page_44_num_70.webp' },
+        { index: 45, pageNum: 71, src: 'asset/logofolio-pages/page_45_num_71.webp' },
+        { index: 46, pageNum: 72, src: 'asset/logofolio-pages/page_46_num_72.webp' },
+        { index: 47, pageNum: 73, src: 'asset/logofolio-pages/page_47_num_73.webp' },
+        { index: 48, pageNum: 76, src: 'asset/logofolio-pages/page_48_num_76.webp' },
+        { index: 49, pageNum: 77, src: 'asset/logofolio-pages/page_49_num_77.webp' }
+    ];
 
     const viewer = document.getElementById('pdfViewer');
     const statusEl = document.getElementById('pdfStatus');
     const pageCountEl = document.getElementById('pdfPageCount');
-    const fileButton = document.getElementById('pdfFileButton');
-    const fileInput = document.getElementById('pdfFileInput');
-    const downloadLink = document.querySelector('.pdf-download');
+    const footerCounter = document.getElementById('dvFooterCounter');
 
-    const pageRecords = new Map();
-
-    let pdfjsLib = null;
-    let pdf = null;
-    let observer = null;
-    let resizeTimer = null;
-    let renderQueue = Promise.resolve();
-    let currentSource = null;
-
-    function setStatus(text) {
-        if (statusEl) {
-            statusEl.textContent = text;
-        }
+    function updateStatus(text) {
+        if (statusEl) statusEl.textContent = text;
     }
 
-    function setPageCount(text) {
-        if (pageCountEl) {
-            pageCountEl.textContent = text;
-        }
+    function updatePageCount(current, total) {
+        const str = `${String(current).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+        if (pageCountEl) pageCountEl.textContent = str;
+        if (footerCounter) footerCounter.textContent = str;
     }
 
-    function showError(message) {
+    function initLogofolioViewer() {
         if (!viewer) return;
 
-        viewer.innerHTML = `
-            <div class="pdf-noscript">
-                <strong>ไม่สามารถโหลด PDF ได้</strong><br>
-                ${message}
-            </div>
-        `;
-    }
+        viewer.innerHTML = '';
+        const total = PAGES.length;
+        updateStatus('Ready · Seamless Document');
+        updatePageCount(1, total);
 
-    function loadScript(src) {
-        return new Promise((resolve, reject) => {
+        const fragment = document.createDocumentFragment();
 
-            if (window.pdfjsLib) {
-                resolve(window.pdfjsLib);
-                return;
-            }
+        PAGES.forEach((item, i) => {
+            const pageSection = document.createElement('section');
+            pageSection.className = 'pdf-page is-rendered';
+            pageSection.dataset.pageIndex = String(item.index);
+            pageSection.dataset.pageNumber = String(item.pageNum);
+            pageSection.setAttribute('aria-label', `Logofolio Page ${item.pageNum} (${item.index} of ${total})`);
+            pageSection.style.position = 'relative';
+            pageSection.style.width = '100%';
+            pageSection.style.margin = '0';
+            pageSection.style.padding = '0';
+            pageSection.style.lineHeight = '0';
+            pageSection.style.fontSize = '0';
+            pageSection.style.border = '0';
+            pageSection.style.overflow = 'hidden';
 
-            const existing = document.querySelector(
-                'script[data-creatrex-pdfjs="true"]'
-            );
+            const img = document.createElement('img');
+            img.src = item.src;
+            img.alt = `Logofolio 2026 — Page ${item.pageNum}`;
+            img.loading = i < 4 ? 'eager' : 'lazy';
+            img.decoding = 'async';
+            img.style.width = '100%';
+            img.style.height = 'auto';
+            img.style.display = 'block';
+            img.style.verticalAlign = 'bottom';
+            img.style.margin = '0';
+            img.style.padding = '0';
+            img.style.border = '0';
+            img.style.position = 'relative';
+            img.style.zIndex = '2';
 
-            if (existing) {
-                existing.addEventListener(
-                    'load',
-                    () => resolve(window.pdfjsLib),
-                    { once: true }
-                );
-
-                existing.addEventListener(
-                    'error',
-                    () => reject(new Error('PDF.js failed to load')),
-                    { once: true }
-                );
-
-                return;
-            }
-
-            const script = document.createElement('script');
-
-            script.src = src;
-            script.async = true;
-            script.dataset.creatrexPdfjs = 'true';
-
-            script.onload = () => {
-
-                if (window.pdfjsLib) {
-                    resolve(window.pdfjsLib);
-                } else {
-                    reject(
-                        new Error(
-                            'PDF.js loaded but pdfjsLib is missing'
-                        )
-                    );
-                }
-            };
-
-            script.onerror = () => {
-                reject(
-                    new Error(
-                        'Unable to load PDF.js from CDN'
-                    )
-                );
-            };
-
-            document.head.appendChild(script);
+            pageSection.appendChild(img);
+            fragment.appendChild(pageSection);
         });
-    }
 
-    async function ensurePdfJs() {
+        viewer.appendChild(fragment);
 
-        if (pdfjsLib) {
-            return pdfjsLib;
-        }
-
-        pdfjsLib = await loadScript(PDFJS_SRC);
-
-        pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
-
-        return pdfjsLib;
-    }
-
-    async function destroyCurrentPdf() {
-
-        if (observer) {
-            observer.disconnect();
-            observer = null;
-        }
-
-        try {
-            await renderQueue;
-        } catch (_) {
-        }
-
-        if (pdf) {
-            try {
-                await pdf.destroy();
-            } catch (_) {
-            }
-        }
-
-        pdf = null;
-        currentSource = null;
-
-        pageRecords.clear();
-
-        if (viewer) {
-            viewer.innerHTML = '';
-        }
-    }
-
-    function getViewerWidth() {
-
-        if (!viewer) {
-            return 320;
-        }
-
-        const width = viewer.getBoundingClientRect().width;
-
-        return Math.max(
-            240,
-            Math.floor(width)
-        );
-    }
-
-    function makePageWrapper(number, ratio) {
-
-        const wrapper = document.createElement('section');
-
-        wrapper.className =
-            'pdf-page is-loading';
-
-        wrapper.dataset.pageNumber =
-            String(number);
-
-        wrapper.setAttribute(
-            'aria-label',
-            `PDF page ${number}`
-        );
-
-        wrapper.style.aspectRatio =
-            `${ratio.width} / ${ratio.height}`;
-
-        return wrapper;
-    }
-
-    function getScaleForWidth(page, width) {
-
-        const baseViewport =
-            page.getViewport({
-                scale: 1
+        // Track active page on scroll
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const index = Number(entry.target.dataset.pageIndex) || 1;
+                        updatePageCount(index, total);
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.25
             });
 
-        return width / baseViewport.width;
-    }
-
-    function cancelRender(entry) {
-
-        if (
-            entry &&
-            entry.renderTask
-        ) {
-            try {
-                entry.renderTask.cancel();
-            } catch (_) {
-            }
-
-            entry.renderTask = null;
+            viewer.querySelectorAll('.pdf-page').forEach((el) => {
+                observer.observe(el);
+            });
         }
     }
 
-    function releaseCanvas(entry) {
-
-        if (
-            !entry ||
-            !entry.canvas
-        ) {
-            return;
-        }
-
-        cancelRender(entry);
-
-        entry.canvas.remove();
-
-        entry.canvas = null;
-        entry.renderedWidth = 0;
-
-        entry.wrapper.classList.remove(
-            'is-rendered'
-        );
-
-        entry.wrapper.classList.add(
-            'is-loading'
-        );
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLogofolioViewer);
+    } else {
+        initLogofolioViewer();
     }
-
-    async function renderPage(entry, force) {
-
-        if (!pdf || !entry) {
-            return;
-        }
-
-        if (entry.rendering) {
-            return;
-        }
-
-        const width = getViewerWidth();
-
-        if (
-            !force &&
-            entry.canvas &&
-            Math.abs(
-                entry.renderedWidth - width
-            ) < 8
-        ) {
-            return;
-        }
-
-        entry.rendering = true;
-
-        entry.wrapper.classList.add(
-            'is-loading'
-        );
-
-        try {
-
-            const page =
-                entry.page ||
-                await pdf.getPage(entry.number);
-
-            entry.page = page;
-
-            const scale =
-                getScaleForWidth(
-                    page,
-                    width
-                );
-
-            const dpr =
-                Math.min(
-                    window.devicePixelRatio || 1,
-                    MAX_DPR
-                );
-
-            const cssViewport =
-                page.getViewport({
-                    scale
-                });
-
-            const outputViewport =
-                page.getViewport({
-                    scale: scale * dpr
-                });
-
-            let canvas = entry.canvas;
-
-            if (!canvas) {
-
-                canvas =
-                    document.createElement(
-                        'canvas'
-                    );
-
-                canvas.className =
-                    'pdf-page-canvas';
-
-                canvas.setAttribute(
-                    'aria-hidden',
-                    'true'
-                );
-
-                entry.wrapper.appendChild(
-                    canvas
-                );
-
-                entry.canvas = canvas;
-            }
-
-            canvas.width =
-                Math.max(
-                    1,
-                    Math.ceil(
-                        outputViewport.width
-                    )
-                );
-
-            canvas.height =
-                Math.max(
-                    1,
-                    Math.ceil(
-                        outputViewport.height
-                    )
-                );
-
-            canvas.style.width =
-                `${cssViewport.width}px`;
-
-            canvas.style.height =
-                `${cssViewport.height}px`;
-
-            entry.wrapper.style.aspectRatio =
-                `${cssViewport.width} / ${cssViewport.height}`;
-
-            const ctx =
-                canvas.getContext(
-                    '2d',
-                    {
-                        alpha: false,
-                        desynchronized: true
-                    }
-                );
-
-            ctx.fillStyle = '#ffffff';
-
-            ctx.fillRect(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-
-            cancelRender(entry);
-
-            const renderTask =
-                page.render({
-                    canvasContext: ctx,
-                    viewport: outputViewport,
-                    intent: 'display',
-                    background: '#ffffff'
-                });
-
-            entry.renderTask =
-                renderTask;
-
-            await renderTask.promise;
-
-            entry.renderTask = null;
-
-            entry.renderedWidth =
-                width;
-
-            entry.wrapper.classList.remove(
-                'is-loading'
-            );
-
-            entry.wrapper.classList.add(
-                'is-rendered'
-            );
-
-        } catch (error) {
-
-            if (
-                error &&
-                error.name ===
-                    'RenderingCancelledException'
-            ) {
-                return;
-            }
-
-            console.error(
-                `CREATREX PDF: page ${entry.number} render failed`,
-                error
-            );
-
-        } finally {
-
-            entry.rendering = false;
-
-            entry.renderTask = null;
-        }
-    }
-
-    function queueRender(
-        entry,
-        force = false
-    ) {
-
-        if (!entry) {
-            return Promise.resolve();
-        }
-
-        renderQueue =
-            renderQueue
-                .then(() =>
-                    renderPage(
-                        entry,
-                        force
-                    )
-                )
-                .catch(error => {
-
-                    console.error(
-                        'CREATREX PDF render queue error:',
-                        error
-                    );
-
-                });
-
-        return renderQueue;
-    }
-
-    function setupIntersectionObserver() {
-
-        if (observer) {
-            observer.disconnect();
-        }
-
-        observer =
-            new IntersectionObserver(
-                entries => {
-
-                    entries.forEach(item => {
-
-                        const number =
-                            Number(
-                                item.target.dataset
-                                    .pageNumber
-                            );
-
-                        const record =
-                            pageRecords.get(
-                                number
-                            );
-
-                        if (!record) {
-                            return;
-                        }
-
-                        if (
-                            item.isIntersecting
-                        ) {
-
-                            queueRender(
-                                record
-                            );
-
-                            return;
-                        }
-
-                        const rect =
-                            item.boundingClientRect;
-
-                        const viewportHeight =
-                            window.innerHeight ||
-                            document.documentElement
-                                .clientHeight;
-
-                        const farAway =
-                            rect.bottom <
-                                -PRELOAD_DISTANCE ||
-                            rect.top >
-                                viewportHeight +
-                                    PRELOAD_DISTANCE;
-
-                        if (farAway) {
-                            releaseCanvas(
-                                record
-                            );
-                        }
-
-                    });
-
-                },
-                {
-                    root: null,
-
-                    rootMargin:
-                        `${PRELOAD_DISTANCE}px 0px`,
-
-                    threshold: 0.01
-                }
-            );
-
-        pageRecords.forEach(
-            record => {
-
-                observer.observe(
-                    record.wrapper
-                );
-
-            }
-        );
-    }
-
-    async function buildPageList() {
-
-        viewer.innerHTML = '';
-
-        pageRecords.clear();
-
-        for (
-            let number = 1;
-            number <= pdf.numPages;
-            number++
-        ) {
-
-            const page =
-                await pdf.getPage(
-                    number
-                );
-
-            const baseViewport =
-                page.getViewport({
-                    scale: 1
-                });
-
-            const wrapper =
-                makePageWrapper(
-                    number,
-                    {
-                        width:
-                            baseViewport.width,
-
-                        height:
-                            baseViewport.height
-                    }
-                );
-
-            viewer.appendChild(
-                wrapper
-            );
-
-            pageRecords.set(
-                number,
-                {
-                    number,
-
-                    page,
-
-                    wrapper,
-
-                    canvas: null,
-
-                    renderedWidth: 0,
-
-                    rendering: false,
-
-                    renderTask: null
-                }
-            );
-        }
-
-        setPageCount(
-            `${pdf.numPages} pages`
-        );
-
-        setupIntersectionObserver();
-
-        if (pageRecords.has(1)) {
-
-            await queueRender(
-                pageRecords.get(1),
-                true
-            );
-        }
-
-        if (pageRecords.has(2)) {
-
-            queueRender(
-                pageRecords.get(2),
-                true
-            );
-        }
-    }
-
-    async function openPdfDocument(
-        source,
-        label
-    ) {
-
-        const lib =
-            await ensurePdfJs();
-
-        await destroyCurrentPdf();
-
-        setStatus(
-            `Loading ${label}…`
-        );
-
-        setPageCount(
-            '0 / 0'
-        );
-
-        let loadingTask;
-
-        if (
-            typeof source === 'string'
-        ) {
-
-            loadingTask =
-                lib.getDocument({
-
-                    url: source,
-
-                    useWorkerFetch: true,
-
-                    isEvalSupported: true,
-
-                    verbosity: 0
-
-                });
-
-        } else {
-
-            const bytes =
-                new Uint8Array(
-                    await source.arrayBuffer()
-                );
-
-            loadingTask =
-                lib.getDocument({
-
-                    data: bytes,
-
-                    useWorkerFetch: false,
-
-                    isEvalSupported: true,
-
-                    verbosity: 0
-
-                });
-        }
-
-        pdf =
-            await loadingTask.promise;
-
-        currentSource = label;
-
-        setStatus('Ready');
-
-        await buildPageList();
-    }
-
-    async function loadWebPdf() {
-
-        const isLocalFile =
-            window.location.protocol ===
-            'file:';
-
-        if (isLocalFile) {
-
-            setStatus(
-                'Choose PDF file'
-            );
-
-            setPageCount('');
-
-            if (fileButton) {
-                fileButton.removeAttribute(
-                    'hidden'
-                );
-            }
-
-            return false;
-        }
-
-        try {
-
-            setStatus(
-                'Loading PDF from website…'
-            );
-
-            await openPdfDocument(
-                PDF_URL,
-                PDF_URL
-            );
-
-            if (downloadLink) {
-                downloadLink.href =
-                    PDF_URL;
-            }
-
-            return true;
-
-        } catch (error) {
-
-            console.error(
-                'CREATREX PDF web load failed:',
-                error
-            );
-
-            setStatus(
-                'Web PDF unavailable'
-            );
-
-            setPageCount('');
-
-            if (fileButton) {
-
-                fileButton.removeAttribute(
-                    'hidden'
-                );
-
-                fileButton.textContent =
-                    'Open PDF from this device';
-            }
-
-            return false;
-        }
-    }
-
-    async function loadLocalFile(file) {
-
-        if (!file) {
-            return;
-        }
-
-        if (
-            file.type &&
-            file.type !==
-                'application/pdf' &&
-            !file.name
-                .toLowerCase()
-                .endsWith('.pdf')
-        ) {
-
-            setStatus(
-                'Please choose a PDF file'
-            );
-
-            return;
-        }
-
-        try {
-
-            setStatus(
-                `Opening ${file.name}…`
-            );
-
-            await openPdfDocument(
-                file,
-                file.name
-            );
-
-            if (downloadLink) {
-
-                const objectUrl =
-                    URL.createObjectURL(
-                        file
-                    );
-
-                downloadLink.href =
-                    objectUrl;
-
-                downloadLink.download =
-                    file.name;
-
-                downloadLink.textContent =
-                    'Download selected PDF ↗';
-            }
-
-        } catch (error) {
-
-            console.error(
-                'CREATREX PDF local load failed:',
-                error
-            );
-
-            setStatus(
-                'Unable to open PDF'
-            );
-
-            setPageCount('');
-
-            showError(
-                'ไฟล์ PDF อาจเสียหาย หรือเบราว์เซอร์ไม่สามารถอ่านไฟล์นี้ได้'
-            );
-        }
-    }
-
-    function bindLocalFilePicker() {
-
-        if (
-            !fileButton ||
-            !fileInput
-        ) {
-            return;
-        }
-
-        fileButton.addEventListener(
-            'click',
-            () => {
-
-                fileInput.click();
-
-            }
-        );
-
-        fileInput.addEventListener(
-            'change',
-            () => {
-
-                const file =
-                    fileInput.files &&
-                    fileInput.files[0];
-
-                if (file) {
-                    loadLocalFile(
-                        file
-                    );
-                }
-            }
-        );
-    }
-
-    function handleResize() {
-
-        clearTimeout(
-            resizeTimer
-        );
-
-        resizeTimer =
-            setTimeout(
-                () => {
-
-                    if (!pdf) {
-                        return;
-                    }
-
-                    const viewportHeight =
-                        window.innerHeight ||
-                        document.documentElement
-                            .clientHeight;
-
-                    pageRecords.forEach(
-                        entry => {
-
-                            const rect =
-                                entry.wrapper
-                                    .getBoundingClientRect();
-
-                            const nearViewport =
-                                rect.bottom >
-                                    -PRELOAD_DISTANCE &&
-                                rect.top <
-                                    viewportHeight +
-                                        PRELOAD_DISTANCE;
-
-                            if (
-                                nearViewport &&
-                                entry.canvas
-                            ) {
-
-                                queueRender(
-                                    entry,
-                                    true
-                                );
-                            }
-                        }
-                    );
-
-                },
-                RESIZE_DEBOUNCE
-            );
-    }
-
-    async function init() {
-
-        if (!viewer) {
-            return;
-        }
-
-        bindLocalFilePicker();
-
-        const loaded =
-            await loadWebPdf();
-
-        if (
-            !loaded &&
-            window.location.protocol !==
-                'file:'
-        ) {
-
-            setStatus(
-                'Choose PDF file'
-            );
-        }
-    }
-
-    window.addEventListener(
-        'resize',
-        handleResize,
-        {
-            passive: true
-        }
-    );
-
-    document.addEventListener(
-        'DOMContentLoaded',
-        init
-    );
-
 })();
