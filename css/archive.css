@@ -490,6 +490,13 @@
     padding: 92px 0 0;
 }
 
+/* detail.css is shared for the footer, but it lowers the global nav to z-index: 10.
+   Keep the Archive header above the PDF reader so its links remain clickable. */
+.nav {
+    position: fixed;
+    z-index: 130;
+}
+
 .pdf-reader {
     width: 100%;
     min-width: 0;
@@ -669,6 +676,7 @@
     .pdf-viewer {
         width: 100%;
     }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
