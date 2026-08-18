@@ -39,69 +39,31 @@
         </div>
     </nav>
 
-    <main class="archive-container">
-        <!-- Monograph Hero Header -->
-        <header class="archive-hero">
-            <div class="archive-header-tag">CREATREX MONOGRAPH ARCHIVE · EDITION 2026</div>
-            <div class="archive-title-wrap">
-                <h1 class="archive-main-title">SELECTED<br>WORKS 2026</h1>
+    <main class="archive-container archive-pdf-page">
+        <section class="pdf-reader" aria-label="Archive 2026 PDF Reader">
+            <div class="pdf-reader-head">
                 <div>
-                    <p class="archive-hero-desc">
-                        A curated compendium of industrial design, athletic footwear engineering, sustainable lifestyle artifacts, and brand identity systems from the studio archive of Suppachok Thepkeaw.
-                    </p>
-                    <div class="archive-hero-meta">
-                        <span><em>Discipline</em> Industrial & Product Design</span>
-                        <span><em>Curated</em> 2018–2026</span>
-                    </div>
+                    <div class="archive-header-tag">CREATREX MONOGRAPH ARCHIVE · EDITION 2026</div>
+                    <h1 class="pdf-reader-title">SELECTED WORKS 2026</h1>
+                </div>
+                <div class="pdf-reader-status" aria-live="polite">
+                    <span id="pdfStatus">Loading PDF…</span>
+                    <span class="pdf-status-dot" aria-hidden="true"></span>
+                    <span id="pdfPageCount">0 / 0</span>
                 </div>
             </div>
-        </header>
 
-        <!-- Designer Profile Banner -->
-        <section class="designer-profile-banner" aria-label="Designer Profile">
-            <img src="asset/portfolio_2026/profile.webp" alt="Suppachok Thepkeaw" class="designer-profile-img" width="320" height="200" loading="eager" decoding="async">
-            <div class="designer-profile-info">
-                <h3>Suppachok Thepkeaw</h3>
-                <div class="designer-profile-role">Industrial Designer & Product Innovator · KMITL Architecture</div>
-                <p class="designer-profile-bio">
-                    Specializing in performance footwear systems, ergonomic medical apparatus, modular sustainable living products, and holistic corporate identity architecture. Grounded in functional user research and sculptural minimalism.
-                </p>
-                <div class="designer-accolades">
-                    <span class="accolade-badge gold">★ NCPD 2022 Outstanding Award Winner</span>
-                    <span class="accolade-badge">★ Breaker Best Design Award</span>
-                    <span class="accolade-badge">Bangkok Design Week (2020, 2021)</span>
-                    <span class="accolade-badge">Chiang Mai Design Week (2018)</span>
-                </div>
+            <div class="pdf-reader-toolbar" role="toolbar" aria-label="PDF viewing controls">
+                <span class="pdf-reader-note">Continuous document view · Fit to screen</span>
+                <a class="pdf-download" href="2026.pdf" download>Download PDF ↗</a>
             </div>
+
+            <div id="pdfViewer" class="pdf-viewer" aria-label="Continuous PDF pages"></div>
+
+            <noscript>
+                <div class="pdf-noscript">JavaScript is required to display this PDF as a continuous web page.</div>
+            </noscript>
         </section>
-
-        <!-- Filter Bar -->
-        <div class="archive-filter-bar" role="toolbar" aria-label="Category Filters">
-            <div class="archive-filter-buttons">
-                <button class="filter-btn active" data-filter="all">All Projects (16)</button>
-                <button class="filter-btn" data-filter="footwear">Footwear & Athletics</button>
-                <button class="filter-btn" data-filter="product">Product & Living</button>
-                <button class="filter-btn" data-filter="furniture">Furniture & Spatial</button>
-                <button class="filter-btn" data-filter="brand">Brand & Packaging</button>
-            </div>
-            <div class="archive-counter-indicator" id="archiveCounter">16 Projects Displayed</div>
-        </div>
-
-        <!-- Project Grid Container -->
-        <div class="archive-grid" id="archiveGrid">
-            <!-- Dynamic project cards rendered by archive.js -->
-        </div>
-
-        <!-- Interactive Project Detail Modal -->
-        <div class="archive-modal" id="archiveModal" role="dialog" aria-modal="true" aria-label="Project Plates">
-            <div class="archive-modal-content">
-                <button class="archive-modal-close" id="archiveModalClose" aria-label="Close modal">✕</button>
-                <div class="archive-modal-body" id="archiveModalBody">
-                    <!-- Modal content populated dynamically -->
-                </div>
-            </div>
-        </div>
-
     </main>
 
     <!-- Signature Full-Width Footer -->
