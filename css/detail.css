@@ -56,58 +56,7 @@ animation: detailViewSlideUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 0% { transform: translateY(20px); }
 100% { transform: translateY(0); }
 }
-/* ========== NAV ========== */
-.nav {
-flex-shrink: 0;
-padding: 18px 22px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-z-index: 10;
-border-bottom: 1px solid var(--hairline);
-animation: slideDown 0.65s var(--ease-expo-out) forwards;
-}
-@keyframes slideDown {
-from { opacity: 0; transform: translateY(-12px); }
-to { opacity: 1; transform: translateY(0); }
-}
-.nav-logo img {
-height: 16px;
-width: auto;
-}
-.nav-links {
-display: flex;
-align-items: center;
-gap: 2rem;
-}
-.nav-link {
-font-size: 10px;
-font-weight: 600;
-letter-spacing: -0.02em;
-text-transform: uppercase;
-color: var(--text);
-text-decoration: none;
-transition: opacity 0.3s ease;
-}
-.nav-link:hover {
-opacity: 0.5;
-}
-.nav-close {
-width: 42px;
-height: 42px;
-border: 1px solid var(--text);
-background: transparent;
-display: flex;
-align-items: center;
-justify-content: center;
-transition: background 0.25s ease, color 0.25s ease, transform 0.35s var(--ease-luxury);
-cursor: pointer;
-}
-.nav-close:hover {
-background: var(--text);
-color: var(--bg);
-transform: rotate(90deg);
-}
+/* Navigation is managed centrally by navigation.css */
 /* ========== HERO ========== */
 .dv-hero {
 padding: clamp(80px, 10vw, 140px) clamp(24px, 4vw, 80px) clamp(40px, 6vw, 80px);
@@ -689,19 +638,6 @@ padding: clamp(60px, 8vw, 100px) 16px clamp(24px, 4vw, 40px);
     overflow: visible;
 }
 
-.nav {
-    padding: 14px 16px;
-}
-
-.nav-links {
-    gap: 1rem;
-}
-
-.nav-close {
-    width: 36px;
-    height: 36px;
-    font-size: 9px;
-}
 }
 @media (max-width: 480px) {
 .dv-hero-image-wrap {
