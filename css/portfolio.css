@@ -1,0 +1,460 @@
+/* =========================================================
+   PORTFOLIO HUB & SPLIT POPUP MODAL STYLES
+   ========================================================= */
+
+.portfolio-page-container {
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: clamp(120px, 15vw, 160px) 4vw clamp(60px, 8vw, 100px);
+    position: relative;
+    z-index: 10;
+}
+
+/* Hero Section */
+.portfolio-hero {
+    margin-bottom: clamp(50px, 8vw, 90px);
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: clamp(36px, 5vw, 60px);
+}
+
+.portfolio-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+.portfolio-kicker::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #050505;
+}
+
+.portfolio-title-wrap {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 40px;
+    align-items: end;
+}
+
+.portfolio-main-title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 9vw, 120px);
+    line-height: 0.92;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--text);
+    word-break: break-word;
+}
+
+.portfolio-hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.portfolio-hero-desc {
+    font-size: clamp(14px, 1.2vw, 16px);
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 520px;
+}
+
+.portfolio-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.portfolio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    background: #ffffff;
+    border: 1px solid var(--text);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.25s var(--ease-luxury), color 0.25s var(--ease-luxury), transform 0.25s var(--ease-luxury);
+}
+
+.portfolio-btn:hover {
+    background: var(--text);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.portfolio-btn--primary {
+    background: var(--text);
+    color: #ffffff;
+}
+
+.portfolio-btn--primary:hover {
+    background: rgba(5, 5, 5, 0.85);
+    color: #ffffff;
+}
+
+/* Hub 2-Column Showcase Cards */
+.portfolio-showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 4vw, 48px);
+    margin-bottom: clamp(80px, 12vw, 140px);
+}
+
+.portfolio-card {
+    border: 1px solid var(--hairline);
+    padding: clamp(32px, 5vw, 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: clamp(360px, 45vh, 500px);
+    background: #ffffff;
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s var(--ease-luxury), box-shadow 0.4s var(--ease-luxury), border-color 0.4s var(--ease-luxury);
+}
+
+.portfolio-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(5, 5, 5, 0.08);
+    border-color: var(--text);
+}
+
+.portfolio-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.portfolio-card-number {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.portfolio-card-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    background: rgba(5, 5, 5, 0.05);
+    border-radius: 999px;
+}
+
+.portfolio-card-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5.5vw, 76px);
+    line-height: 0.94;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px 0;
+}
+
+.portfolio-card-desc {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    max-width: 440px;
+    margin-bottom: 24px;
+}
+
+.portfolio-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid var(--hairline);
+    padding-top: 20px;
+    margin-top: auto;
+}
+
+.portfolio-card-action {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.25s var(--ease-luxury);
+}
+
+.portfolio-card:hover .portfolio-card-action {
+    gap: 12px;
+}
+
+.portfolio-card-file {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   SPLIT POPUP MODAL (2-SIDED FULL SCREEN CHOOSER)
+   ========================================================= */
+
+.port-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease-luxury), visibility 0.4s var(--ease-luxury);
+}
+
+.port-modal.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.port-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 1;
+}
+
+.port-modal-close {
+    position: fixed;
+    top: 22px;
+    right: 24px;
+    z-index: 220;
+    background: #ffffff;
+    border: 1px solid var(--text);
+    padding: 10px 18px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.25s var(--ease-luxury), color 0.25s var(--ease-luxury), transform 0.25s var(--ease-luxury);
+}
+
+.port-modal-close:hover {
+    background: var(--text);
+    color: #ffffff;
+    transform: scale(1.04);
+}
+
+.port-split-container {
+    position: relative;
+    z-index: 5;
+    width: 100vw;
+    height: 100dvh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.port-split-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(60px, 10vh, 120px) clamp(36px, 6vw, 90px);
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    background: transparent;
+    transition: background 0.4s var(--ease-luxury), transform 0.4s var(--ease-luxury);
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.port-split-panel--left {
+    border-right: 1px solid var(--hairline);
+}
+
+.port-split-panel:hover {
+    background: rgba(5, 5, 5, 0.035);
+}
+
+.port-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.port-panel-kicker {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.port-panel-kicker::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #050505;
+}
+
+.port-panel-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--hairline);
+    color: var(--text);
+    background: #ffffff;
+}
+
+.port-panel-content {
+    margin: auto 0;
+    padding: 30px 0;
+}
+
+.port-panel-title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 118px);
+    line-height: 0.92;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px 0;
+    color: var(--text);
+    transition: transform 0.4s var(--ease-luxury);
+}
+
+.port-split-panel:hover .port-panel-title {
+    transform: translateY(-4px);
+}
+
+.port-panel-subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(13px, 1.2vw, 16px);
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0;
+}
+
+.port-panel-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    border-top: 1px solid var(--hairline);
+    padding-top: 24px;
+}
+
+.port-panel-cta {
+    font-size: clamp(12px, 1.1vw, 15px);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+    transition: gap 0.3s var(--ease-luxury), transform 0.3s var(--ease-luxury);
+}
+
+.port-split-panel:hover .port-panel-cta {
+    gap: 16px;
+    transform: translateX(4px);
+}
+
+.port-panel-format {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* =========================================================
+   RESPONSIVE OVERRIDES
+   ========================================================= */
+
+@media (max-width: 980px) {
+    .portfolio-title-wrap {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .portfolio-showcase-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .port-split-panel {
+        padding: clamp(40px, 6vh, 80px) clamp(24px, 4vw, 48px);
+    }
+}
+
+@media (max-width: 768px) {
+    .port-split-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        height: 100dvh;
+        overflow-y: auto;
+    }
+
+    .port-split-panel--left {
+        border-right: none;
+        border-bottom: 1px solid var(--hairline);
+    }
+
+    .port-split-panel {
+        padding: 68px 24px 28px;
+        justify-content: space-between;
+        min-height: 50dvh;
+    }
+
+    .port-panel-title {
+        font-size: clamp(38px, 11vw, 58px);
+        margin-bottom: 10px;
+    }
+
+    .port-panel-subtitle {
+        font-size: 12px;
+    }
+
+    .port-modal-close {
+        top: 14px;
+        right: 16px;
+        padding: 8px 14px;
+        font-size: 10px;
+    }
+}
