@@ -1,4 +1,4 @@
-// DIY SplitText Utility (Detroit.paris style)
+// DIY SplitText Utility (creatre(x) style)
 class SplitTextDIY {
     constructor(selector) {
         this.elements = document.querySelectorAll(selector);

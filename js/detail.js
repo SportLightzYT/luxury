@@ -29,11 +29,21 @@ class DetailView {
         if (this.closeBtn) {
             this.closeBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.location.href = 'index.html';
+                if (typeof window.navigateToPage === 'function') {
+                    window.navigateToPage('index.html');
+                } else {
+                    window.location.href = 'index.html';
+                }
             });
         }
         window.addEventListener('keydown', e => {
-            if (e.key === 'Escape') window.location.href = 'index.html';
+            if (e.key === 'Escape') {
+                if (typeof window.navigateToPage === 'function') {
+                    window.navigateToPage('index.html');
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }
         });
     }
 

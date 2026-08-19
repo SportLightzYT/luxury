@@ -170,10 +170,12 @@ class ProjectsController {
             if (row) {
                 const idx = parseInt(row.dataset.projectIndex);
                 if (!isNaN(idx)) {
-                    document.body.style.opacity = '0';
-                    setTimeout(() => {
-                        window.location.href = `detail.html?id=${idx}`;
-                    }, 400);
+                    const targetUrl = `detail.html?id=${idx}`;
+                    if (typeof window.navigateToPage === 'function') {
+                        window.navigateToPage(targetUrl);
+                    } else {
+                        window.location.href = targetUrl;
+                    }
                 }
             }
         });

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>DETROIT STYLE — Visual Culture Archive</title>
+    <title>creatre(x) - Visual Culture Archive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com">
@@ -32,8 +32,6 @@
             <a href="talents.html" class="nav-link">Talents</a>
             <a href="projects.html" class="nav-link">Projects</a>
             <a href="portfolio.html" class="nav-link">Portfolio</a>
-            <a href="archive.html" class="nav-link">Archive 2026</a>
-            <a href="logofolio.html" class="nav-link">Logofolio 2026</a>
             <a href="services.html" class="nav-link">Services</a>
             <a href="insights.html" class="nav-link">Insights</a>
             <a href="contact.html" class="nav-link">Contact</a>
@@ -42,10 +40,69 @@
     <script defer src="js/navigation.js"></script>
 
     <div class="typography-overlay" id="typoOverlay">
-        <div class="typography-top">
-            <img src="asset/creatrex logo-02_0.webp" alt="Creatrex Logo" class="typography-logo" width="520" height="80" loading="eager">
+        
+        <!-- VARIANT 1: Scroll-to-Dock Morphing Logo -->
+        <div class="hero-logo-variant hero-logo-variant--1 is-active" data-variant="1">
+            <div class="docking-logo-box" id="dockingLogoBox">
+                <img src="asset/creatrex logo-02_0.webp" alt="Creatrex Logo" class="typography-logo" width="520" height="80" loading="eager">
+            </div>
+            <div class="typography-bottom">
+                <p class="typography-sub">AI production house in Paris, crafting culture for luxury brands. Print & Film. AI. 3D. CGI.</p>
+            </div>
         </div>
-        <div class="typography-bottom"><p class="typography-sub">AI production house in Paris, crafting culture for luxury brands. Print & Film. AI. 3D. CGI.</p></div>
+
+        <!-- VARIANT 2: Living Texture Cutout (Window to Culture) -->
+        <div class="hero-logo-variant hero-logo-variant--2" data-variant="2">
+            <div class="cutout-logo-wrap">
+                <h1 class="cutout-logo-title">CREATRE<span class="cutout-x">(X)</span></h1>
+                <div class="cutout-sub-badge">AI PRODUCTION & SPATIAL SYSTEMS</div>
+            </div>
+            <div class="typography-bottom">
+                <p class="typography-sub">Living visual intelligence & neural aesthetics for haute couture and industrial design.</p>
+            </div>
+        </div>
+
+        <!-- VARIANT 3: 3D Magnetic Spatial Emblem -->
+        <div class="hero-logo-variant hero-logo-variant--3" data-variant="3">
+            <div class="spatial-emblem-card" id="spatialEmblemCard">
+                <div class="spatial-emblem-badge">
+                    <img src="asset/creatrex logo-02_0.webp" alt="Creatrex Logo" class="spatial-logo-img" width="380" height="60">
+                    <div class="spatial-sheen"></div>
+                </div>
+                <div class="spatial-meta-row">
+                    <span class="spatial-coords">[ 48.8566° N, 2.3522° E — PARIS / MARSEILLE ]</span>
+                    <span class="spatial-live"><span class="spatial-pulse-dot"></span> LIVE ARCHIVE 2026</span>
+                </div>
+            </div>
+            <div class="typography-bottom">
+                <p class="typography-sub">Spatial computing & CGI direction for contemporary luxury houses.</p>
+            </div>
+        </div>
+
+        <!-- VARIANT 4: Giant Monogram (X) Watermark + Editorial Manifesto -->
+        <div class="hero-logo-variant hero-logo-variant--4" data-variant="4">
+            <div class="manifesto-box">
+                <span class="manifesto-kicker">Agency Manifesto — 2026</span>
+                <h1 class="manifesto-text">CRAFTING CULTURE AT THE INTERSECTION OF HUMAN INTUITION & NEURAL IMAGINATION.</h1>
+            </div>
+            <div class="manifesto-watermark-x" id="manifestoWatermarkX">(X)</div>
+            <div class="typography-bottom">
+                <p class="typography-sub">Paris · Marseille · Selected Works 2026</p>
+            </div>
+        </div>
+
+        <!-- VARIANT 5: Pure Minimalist Blend-Mode Focus -->
+        <div class="hero-logo-variant hero-logo-variant--5" data-variant="5">
+            <div class="minimal-focus-box">
+                <div class="minimal-meta-pill">ARCHIVE EDITION 2026</div>
+                <h2 class="minimal-lead-title">SELECTED WORKS & VISUAL ARTIFACTS</h2>
+            </div>
+            <div class="typography-bottom">
+                <p class="typography-sub">Continuous 3D stream gallery with dynamic blend-mode navigation.</p>
+            </div>
+        </div>
+
+        <!-- Floating Hero Visual Cards on the right -->
         <div class="hero-visuals-container" id="heroVisuals">
             <a href="detail.html?id=0" class="typography-visual" id="heroVisualLink">
                 <div class="hero-image-wrap">
@@ -79,9 +136,36 @@
     </div>
     <div class="luxury-cursor-dot" id="luxuryCursorDot"></div>
 
-    <aside class="index-panel">
-        <div class="index-panel__kicker">Recent Book</div>
-        <div class="index-panel__body">A Comparative Analysis of Carbon Impact in Production</div>
+    <!-- Interactive Logo Mode Switcher Dock -->
+    <aside class="logo-mode-dock" id="logoModeDock" aria-label="Logo Style Switcher">
+        <div class="logo-mode-dock__inner">
+            <div class="logo-mode-dock__header">
+                <span class="logo-mode-dock__title">LOGO CONCEPT</span>
+                <span class="logo-mode-dock__badge" id="activeModeName">01 Docking</span>
+            </div>
+            <div class="logo-mode-dock__buttons">
+                <button type="button" class="logo-mode-btn is-active" data-set-variant="1" title="Scroll-to-Dock Morphing">
+                    <span class="btn-num">01</span>
+                    <span class="btn-label">Docking</span>
+                </button>
+                <button type="button" class="logo-mode-btn" data-set-variant="2" title="Living Texture Cutout">
+                    <span class="btn-num">02</span>
+                    <span class="btn-label">Cutout (X)</span>
+                </button>
+                <button type="button" class="logo-mode-btn" data-set-variant="3" title="3D Spatial Emblem">
+                    <span class="btn-num">03</span>
+                    <span class="btn-label">Spatial 3D</span>
+                </button>
+                <button type="button" class="logo-mode-btn" data-set-variant="4" title="Massive (X) + Manifesto">
+                    <span class="btn-num">04</span>
+                    <span class="btn-label">Manifesto</span>
+                </button>
+                <button type="button" class="logo-mode-btn" data-set-variant="5" title="Pure Minimalist Focus">
+                    <span class="btn-num">05</span>
+                    <span class="btn-label">Minimal</span>
+                </button>
+            </div>
+        </div>
     </aside>
 
     <div class="scroll-indicator">Scroll to Explore</div>

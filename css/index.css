@@ -1,5 +1,5 @@
 /* =========================================================
-   DETROIT STYLE — ARTIST GALLERY & LIQUID INERTIA STYLES
+   creatre(x) — ARTIST GALLERY & LIQUID INERTIA STYLES
    ========================================================= */
 
 html, body {
@@ -288,6 +288,10 @@ body::after {
    TYPOGRAPHY OVERLAY & HERO VISUALS
    ========================================================= */
 
+/* =========================================================
+   TYPOGRAPHY OVERLAY & 5 HERO LOGO CONCEPTS
+   ========================================================= */
+
 .typography-overlay {
     position: fixed;
     inset: 0;
@@ -298,41 +302,412 @@ body::after {
     grid-template-rows: auto auto 1fr;
     padding: clamp(36px, 6vh, 64px) clamp(24px, 4vw, 48px);
     overflow: visible;
-    will-change: opacity, transform, filter;
+    background: transparent;
+    will-change: opacity, transform;
     transition: opacity 0.15s linear;
 }
 
-.typography-top {
+.hero-logo-variant {
     grid-column: 1 / 3;
-    grid-row: 1;
+    grid-row: 1 / 3;
+    display: none;
+    flex-direction: column;
     align-self: start;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s var(--ease-luxury), transform 0.4s var(--ease-luxury);
     will-change: transform, opacity;
 }
 
+.hero-logo-variant.is-active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
 .typography-bottom {
-    grid-column: 1 / 3;
-    grid-row: 2;
-    align-self: start;
-    margin-top: 14px;
+    margin-top: 18px;
     will-change: transform, opacity;
+    pointer-events: auto;
+}
+
+.typography-sub {
+    max-width: 440px;
+    font-size: clamp(13px, 1.2vw, 17px);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+    transition: opacity 0.25s ease;
+}
+
+/* ─────────────────────────────────────────────────────────
+   VARIANT 1: SCROLL-TO-DOCK MORPHING LOGO
+   ───────────────────────────────────────────────────────── */
+.docking-logo-box {
+    will-change: transform, opacity;
+    transition: transform 0.3s var(--ease-luxury), opacity 0.3s ease;
 }
 
 .typography-logo {
     width: clamp(220px, 32vw, 540px);
     max-width: 100%;
-    margin: 0 0 16px 0;
+    margin: 0;
     display: block;
     height: auto;
+    filter: none;
+    transition: opacity 0.3s ease;
 }
 
-.typography-sub {
-    max-width: 420px;
-    font-size: clamp(13px, 1.2vw, 18px);
-    font-weight: 500;
-    line-height: 1.25;
+/* ─────────────────────────────────────────────────────────
+   VARIANT 2: LIVING TEXTURE CUTOUT (WINDOW TO CULTURE)
+   ───────────────────────────────────────────────────────── */
+.cutout-logo-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.cutout-logo-title {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 8.5vw, 120px);
+    line-height: 0.9;
     letter-spacing: -0.03em;
     text-transform: uppercase;
+    margin: 0;
+    
+    /* Living Texture Gradient Clip */
+    background: linear-gradient(
+        125deg,
+        #050505 0%,
+        #4b5563 20%,
+        #050505 40%,
+        #9ca3af 60%,
+        #1f2937 80%,
+        #050505 100%
+    );
+    background-size: 260% 260%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: cutoutTextureShimmer 8s ease-in-out infinite alternate;
+}
+
+@keyframes cutoutTextureShimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+.cutout-x {
+    display: inline-block;
+    color: #050505;
+    -webkit-text-fill-color: #050505;
+    letter-spacing: -0.01em;
+    transition: transform 0.35s var(--ease-luxury);
+}
+
+.cutout-logo-wrap:hover .cutout-x {
+    transform: scale(1.06) rotate(3deg);
+}
+
+.cutout-sub-badge {
+    margin-top: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* ─────────────────────────────────────────────────────────
+   VARIANT 3: 3D MAGNETIC SPATIAL EMBLEM
+   ───────────────────────────────────────────────────────── */
+.spatial-emblem-card {
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    will-change: transform;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.spatial-emblem-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: clamp(14px, 2vw, 22px) clamp(20px, 3vw, 32px);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(5, 5, 5, 0.08);
+    border-radius: 8px;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.35s var(--ease-luxury), border-color 0.35s var(--ease-luxury);
+}
+
+.spatial-emblem-badge:hover {
+    border-color: rgba(5, 5, 5, 0.2);
+    box-shadow: 0 28px 64px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.spatial-logo-img {
+    width: clamp(200px, 26vw, 380px);
+    height: auto;
+    display: block;
+    filter: none;
+}
+
+.spatial-sheen {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+    );
+    opacity: 0.6;
+    pointer-events: none;
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.spatial-emblem-badge:hover .spatial-sheen {
+    transform: translateX(100%);
+}
+
+.spatial-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    margin-top: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.spatial-coords {
+    color: var(--muted);
+}
+
+.spatial-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: var(--text);
+    font-weight: 700;
+}
+
+.spatial-pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* ─────────────────────────────────────────────────────────
+   VARIANT 4: MASSIVE (X) WATERMARK + MANIFESTO
+   ───────────────────────────────────────────────────────── */
+.manifesto-box {
+    max-width: 620px;
+    position: relative;
+    z-index: 2;
+}
+
+.manifesto-kicker {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+.manifesto-text {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0;
+}
+
+.manifesto-watermark-x {
+    position: absolute;
+    left: 20vw;
+    top: -20px;
+    font-family: var(--font-display);
+    font-size: clamp(180px, 32vw, 460px);
+    font-weight: 900;
+    line-height: 0.8;
+    color: rgba(5, 5, 5, 0.04);
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+    user-select: none;
+    transition: transform 0.2s ease-out;
+}
+
+/* ─────────────────────────────────────────────────────────
+   VARIANT 5: PURE MINIMALIST FOCUS
+   ───────────────────────────────────────────────────────── */
+.minimal-focus-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.minimal-meta-pill {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.minimal-lead-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5.2vw, 76px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0;
+}
+
+/* ─────────────────────────────────────────────────────────
+   INTERACTIVE LOGO MODE SWITCHER DOCK
+   ───────────────────────────────────────────────────────── */
+.logo-mode-dock {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 130;
+    pointer-events: auto;
+    max-width: calc(100vw - 48px);
+}
+
+.logo-mode-dock__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 12px 10px;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(5, 5, 5, 0.1);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(5, 5, 5, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s var(--ease-luxury), box-shadow 0.3s var(--ease-luxury);
+}
+
+.logo-mode-dock__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 4px;
+}
+
+.logo-mode-dock__badge {
+    color: var(--text);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.logo-mode-dock__buttons {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo-mode-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 11px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.22s var(--ease-luxury);
+    user-select: none;
+    white-space: nowrap;
+}
+
+.logo-mode-btn:hover {
+    background: rgba(5, 5, 5, 0.06);
+    transform: translateY(-1px);
+}
+
+.logo-mode-btn.is-active {
+    background: #050505;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(5, 5, 5, 0.25);
+    border-color: #050505;
+}
+
+.logo-mode-btn .btn-num {
+    font-size: 9px;
+    opacity: 0.55;
+    font-variant-numeric: tabular-nums;
+}
+
+.logo-mode-btn.is-active .btn-num {
+    opacity: 0.85;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .logo-mode-dock {
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        max-width: none;
+    }
+
+    .logo-mode-dock__buttons {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 2px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .logo-mode-btn {
+        padding: 5px 8px;
+        font-size: 9.5px;
+    }
 }
 
 /* Floating Hero Preview Cards */
@@ -498,61 +873,7 @@ body::after {
 @keyframes fadeIn { to { opacity: 0.75; } }
 @keyframes pulseLine { to { transform: scaleX(0.35); opacity: 0.35; } }
 
-.index-panel {
-    position: fixed;
-    z-index: 55;
-    top: 96px;
-    right: 32px;
-    width: min(260px, calc(100vw - 64px));
-    pointer-events: none;
-    color: var(--text);
-    padding: 14px 16px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 16px 44px rgba(5, 5, 5, 0.08), 0 0 0 1px rgba(5,5,5,0.06);
-    will-change: opacity, transform;
-    transition: opacity 0.4s ease;
-}
 
-.index-panel__kicker {
-    font-size: 10px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-}
-
-.index-panel__body {
-    font-size: 11px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--text);
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-}
-
-/* =========================================================
-   RESPONSIVE ADJUSTMENTS
-   ========================================================= */
-
-@media (max-width: 980px) {
-    .typography-overlay {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-        padding-top: 80px;
-    }
-
-    .hero-visuals-container {
-        display: none;
-    }
-
-    .index-panel {
-        display: none;
-    }
-}
 
 @media (max-width: 640px) {
     .typography-logo {

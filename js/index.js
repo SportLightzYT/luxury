@@ -1,5 +1,5 @@
 /**
- * DETROIT STYLE — Liquid Inertia & 3D Physics Gallery Engine
+ * creatre(x) — Liquid Inertia & 3D Physics Gallery Engine
  * ------------------------------------------------------------
  * 1) Seamless virtual infinite continuous scroll (Zero freeze, Zero teleportation/warp).
  * 2) Liquid Velocity Skew & Inertia Stretch physics.
@@ -54,6 +54,11 @@
 
             this.rafId = null;
             this.isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            this.activeLogoVariant = 1;
+            this.navLogo = document.querySelector('.nav-logo');
+            this.dockingBox = document.getElementById('dockingLogoBox');
+            this.spatialCard = document.getElementById('spatialEmblemCard');
+            this.watermarkX = document.getElementById('manifestoWatermarkX');
         }
 
         init() {
@@ -61,9 +66,75 @@
 
             this.initCursor();
             this.initKineticBackdrop();
+            this.initLogoSwitcher();
             this.buildColumns();
             this.bindEvents();
             this.startLoop();
+        }
+
+        /* ─────────────────────────────────────────
+           INTERACTIVE LOGO MODE SWITCHER
+        ───────────────────────────────────────── */
+        initLogoSwitcher() {
+            const dock = document.getElementById('logoModeDock');
+            if (!dock) return;
+
+            const modeBadge = document.getElementById('activeModeName');
+            const buttons = dock.querySelectorAll('[data-set-variant]');
+            const variants = document.querySelectorAll('.hero-logo-variant');
+
+            const modeLabels = {
+                '1': '01 Docking',
+                '2': '02 Cutout (X)',
+                '3': '03 Spatial 3D',
+                '4': '04 Manifesto',
+                '5': '05 Minimal'
+            };
+
+            const setVariant = (variantId) => {
+                this.activeLogoVariant = parseInt(variantId, 10) || 1;
+                localStorage.setItem('creatrex_logo_variant', String(this.activeLogoVariant));
+
+                if (modeBadge) {
+                    modeBadge.textContent = modeLabels[variantId] || `0${variantId}`;
+                }
+
+                buttons.forEach(btn => {
+                    btn.classList.toggle('is-active', btn.dataset.setVariant === String(variantId));
+                });
+
+                variants.forEach(v => {
+                    const isActive = v.dataset.variant === String(variantId);
+                    v.classList.toggle('is-active', isActive);
+                });
+
+                // Reset nav logo visibility for non-docking modes
+                if (this.navLogo) {
+                    if (this.activeLogoVariant === 1) {
+                        const scrollDist = Math.abs(this.currentScroll);
+                        const progress = clamp(scrollDist / 140, 0, 1);
+                        this.navLogo.style.opacity = String(progress);
+                        this.navLogo.style.pointerEvents = progress > 0.4 ? 'auto' : 'none';
+                    } else {
+                        this.navLogo.style.opacity = '1';
+                        this.navLogo.style.pointerEvents = 'auto';
+                    }
+                }
+            };
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const targetVariant = btn.dataset.setVariant;
+                    if (targetVariant) {
+                        setVariant(targetVariant);
+                    }
+                });
+            });
+
+            // Load saved variant or default to 1
+            const savedVariant = localStorage.getItem('creatrex_logo_variant') || '1';
+            setVariant(savedVariant);
         }
 
         /* ─────────────────────────────────────────
@@ -73,7 +144,7 @@
             if (!this.kineticBg) return;
 
             const texts = [
-                'CREATREX STUDIO · PARIS · MARSEILLE · DETROIT · CREATREX STUDIO · PARIS · MARSEILLE · DETROIT ·',
+                'CREATRE(X) STUDIO · PARIS · MARSEILLE · CREATRE(X) STUDIO · PARIS · MARSEILLE ·',
                 'SELECTED ARCHIVE 2026 · AI PRODUCTION · LUXURY SYSTEMS · SELECTED ARCHIVE 2026 · AI PRODUCTION · LUXURY SYSTEMS ·',
                 'PRINT & FILM · EXPERIMENTAL 3D · CRAFTING CULTURE · PRINT & FILM · EXPERIMENTAL 3D · CRAFTING CULTURE ·'
             ];
@@ -244,7 +315,12 @@
                 if (item) {
                     const idx = item.dataset.projectIndex;
                     if (idx !== undefined) {
-                        window.location.href = `detail.html?id=${idx}`;
+                        const targetUrl = `detail.html?id=${idx}`;
+                        if (typeof window.navigateToPage === 'function') {
+                            window.navigateToPage(targetUrl);
+                        } else {
+                            window.location.href = targetUrl;
+                        }
                     }
                 }
             });
@@ -395,19 +471,40 @@
                 if (this.typoOverlay) {
                     this.typoOverlay.style.opacity = String(heroOpacity);
                     this.typoOverlay.style.transform = `translate3d(0, ${heroTranslateY}px, 0)`;
-                    this.typoOverlay.style.filter = heroBlur > 0.1 ? `blur(${heroBlur.toFixed(1)}px)` : 'none';
                     this.typoOverlay.style.pointerEvents = heroOpacity <= 0.05 ? 'none' : 'auto';
                     this.typoOverlay.style.visibility = heroOpacity <= 0.005 ? 'hidden' : 'visible';
+                }
+
+                // Mode-specific physics & transitions
+                if (this.activeLogoVariant === 1) {
+                    // MODE 1: Scroll-to-Dock
+                    if (this.navLogo) {
+                        const dockProgress = clamp(scrollDist / 140, 0, 1);
+                        this.navLogo.style.opacity = String(dockProgress);
+                        this.navLogo.style.pointerEvents = dockProgress > 0.4 ? 'auto' : 'none';
+                    }
+                    if (this.dockingBox) {
+                        const dockScale = 1 - progress * 0.35;
+                        const dockY = -progress * 24;
+                        this.dockingBox.style.transform = `translate3d(0, ${dockY}px, 0) scale(${dockScale})`;
+                    }
+                } else if (this.activeLogoVariant === 3 && this.spatialCard && !this.isReducedMotion) {
+                    // MODE 3: 3D Spatial Mouse Tilt
+                    const normX = clamp((this.mouse.x - window.innerWidth / 2) / (window.innerWidth / 2), -1, 1);
+                    const normY = clamp((this.mouse.y - window.innerHeight / 2) / (window.innerHeight / 2), -1, 1);
+                    const tiltX = -normY * 10;
+                    const tiltY = normX * 10;
+                    this.spatialCard.style.transform = `rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(8px)`;
+                } else if (this.activeLogoVariant === 4 && this.watermarkX) {
+                    // MODE 4: Watermark X drift & subtle rotation
+                    const xDrift = this.currentScroll * 0.12;
+                    const xRot = this.currentScroll * 0.015;
+                    this.watermarkX.style.transform = `translate3d(${xDrift.toFixed(1)}px, 0, 0) rotate(${xRot.toFixed(2)}deg)`;
                 }
 
                 if (this.scrollIndicator) {
                     const indicatorOpacity = Math.max(0, 1 - scrollDist / 80);
                     this.scrollIndicator.style.opacity = String(indicatorOpacity);
-                }
-
-                if (this.indexPanel) {
-                    const panelOpacity = Math.max(0, 1 - scrollDist / 180);
-                    this.indexPanel.style.opacity = String(panelOpacity);
                 }
 
                 this.rafId = requestAnimationFrame(tick);
