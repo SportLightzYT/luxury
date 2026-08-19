@@ -20,34 +20,12 @@
             loader.className = 'boot-loader';
             loader.setAttribute('aria-hidden', 'true');
             loader.innerHTML = `
-                <div class="bl-top-meta">
-                    <span class="bl-location">[ PARIS · MARSEILLE ]</span>
-                    <span class="bl-status"><span class="bl-dot"></span> ARCHIVE ONLINE</span>
-                </div>
-                
                 <div class="bl-brand">
                     <div class="bl-logo">creatre(x)</div>
-                    <div class="bl-sub">CRAFTING CULTURE FOR LUXURY BRANDS</div>
                 </div>
-
-                <div class="bl-bottom">
-                    <div class="bl-counter-wrap">
-                        <span class="bl-counter" id="blCounter">000</span>
-                        <span class="bl-unit">%</span>
-                    </div>
-                    <div class="bl-progress-bar">
-                        <div class="bl-progress-fill" id="blProgressFill"></div>
-                    </div>
-                    <div class="bl-caption" id="blCaption">PRELOADING ASSETS & VISUAL ARTIFACTS</div>
-                </div>
-                <div class="bl-sheen"></div>
             `;
             document.body.prepend(loader);
         }
-
-        const counterEl = document.getElementById('blCounter');
-        const fillEl = document.getElementById('blProgressFill');
-        const captionEl = document.getElementById('blCaption');
 
         const keyImages = [
             'asset/creatrex logo-01_0.webp',
@@ -59,20 +37,8 @@
         let loadedCount = 0;
         const total = keyImages.length + 1; // +1 for fonts
 
-        const captions = [
-            'INITIALIZING LUXURY SYSTEMS...',
-            'LOADING 3D ARCHIVE & TEXTURES...',
-            'SYNCHRONIZING VISUAL SHADERS...',
-            'CALIBRATING INERTIA PHYSICS...',
-            'ARCHIVE READY'
-        ];
-
-        let targetPercent = 15;
-        let currentPercent = 0;
-
         function updateStep() {
             loadedCount++;
-            targetPercent = Math.min(100, Math.round((loadedCount / total) * 100));
         }
 
         // Preload fonts
@@ -90,51 +56,21 @@
             img.src = src;
         });
 
-        // Smooth Counter Animation Loop
+        // Hold loader until assets are ready (minimum 1.2s)
         let startTime = performance.now();
-        const minDuration = 1200; // Minimum dramatic presentation duration (1.2s)
-        let isDone = false;
+        const minDuration = 1200;
 
         function tickLoader(now) {
             const elapsed = now - startTime;
-            const timeProgress = Math.min(1, elapsed / minDuration);
 
-            // Calculate current interpolated value
-            const timeMappedPercent = Math.round(timeProgress * 100);
-            const effectiveTarget = Math.max(timeMappedPercent, targetPercent);
-            
-            currentPercent += (effectiveTarget - currentPercent) * 0.12;
-
-            if (currentPercent > 99.4 && timeProgress >= 1 && loadedCount >= total - 1) {
-                currentPercent = 100;
-            }
-
-            const displayVal = Math.floor(currentPercent);
-            if (counterEl) counterEl.textContent = String(displayVal).padStart(3, '0');
-            if (fillEl) fillEl.style.width = `${displayVal}%`;
-
-            // Dynamic caption steps
-            if (captionEl) {
-                if (displayVal < 25) captionEl.textContent = captions[0];
-                else if (displayVal < 55) captionEl.textContent = captions[1];
-                else if (displayVal < 80) captionEl.textContent = captions[2];
-                else if (displayVal < 100) captionEl.textContent = captions[3];
-                else captionEl.textContent = captions[4];
-            }
-
-            if (currentPercent < 100 || !isDone) {
-                if (currentPercent >= 100) {
-                    isDone = true;
-                    setTimeout(() => {
-                        loader.classList.add('is-hidden');
-                        document.body.classList.add('page-loaded');
-                        setTimeout(() => {
-                            if (loader.parentNode) loader.remove();
-                        }, 750);
-                    }, 140);
-                } else {
-                    requestAnimationFrame(tickLoader);
-                }
+            if (elapsed >= minDuration && loadedCount >= total) {
+                loader.classList.add('is-hidden');
+                document.body.classList.add('page-loaded');
+                setTimeout(() => {
+                    if (loader.parentNode) loader.remove();
+                }, 750);
+            } else {
+                requestAnimationFrame(tickLoader);
             }
         }
 
@@ -155,7 +91,6 @@
             curtain.setAttribute('aria-hidden', 'true');
             curtain.innerHTML = `
                 <div class="curtain-bg"></div>
-                <div class="curtain-sheen"></div>
             `;
             document.body.appendChild(curtain);
         }
