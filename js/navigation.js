@@ -150,6 +150,8 @@
             setTimeout(() => {
                 document.body.classList.remove('page-transitioning-in', 'page-transition-animate-in');
                 isTransitioning = false;
+                const earlyCurtain = document.getElementById('pageCurtain');
+                if (earlyCurtain) earlyCurtain.classList.remove('is-active', 'is-early');
             }, 950);
         }
 

@@ -8,12 +8,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital@0;1&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital@0;1&display=swap"></noscript>
-    <link rel="stylesheet" href="css/global.css?v=3">
-    <link rel="stylesheet" href="css/detail.css?v=3">
-    <link rel="stylesheet" href="css/navigation.css?v=3">
+    <link rel="stylesheet" href="css/global.css?v=4">
+    <link rel="stylesheet" href="css/detail.css?v=4">
+    <link rel="stylesheet" href="css/navigation.css?v=4">
     <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+    (function () {
+        var fromTransition = false;
+        try { fromTransition = sessionStorage.getItem('pt_active') === '1'; } catch (e) {}
+        if (fromTransition) {
+            var c = document.createElement('div');
+            c.id = 'pageCurtain';
+            c.className = 'page-curtain is-active is-early';
+            c.setAttribute('aria-hidden', 'true');
+            c.innerHTML = '<div class="curtain-bg"></div>';
+            document.documentElement.appendChild(c);
+        }
+    })();
+</script>
 </head>
 <body>
     <nav class="nav" role="navigation" aria-label="Main navigation">
@@ -30,7 +44,7 @@
             <a href="index.html" class="nav-link nav-close" id="dvClose">Close</a>
         </div>
     </nav>
-    <script defer src="js/navigation.js?v=3"></script>
+    <script defer src="js/navigation.js?v=4"></script>
 
     <div class="detail-view">
 
@@ -76,8 +90,8 @@
         </footer>
     </div>
 
-    <script defer src="js/data.js?v=3"></script>
-    <script defer src="js/detail.js?v=3"></script>
-    <script defer src="js/footer.js?v=3"></script>
+    <script defer src="js/data.js?v=4"></script>
+    <script defer src="js/detail.js?v=4"></script>
+    <script defer src="js/footer.js?v=4"></script>
 </body>
 </html>

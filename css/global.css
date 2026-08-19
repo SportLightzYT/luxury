@@ -238,6 +238,12 @@ body::before {
     pointer-events: auto;
 }
 
+/* Early-injected curtain (before first paint) — covers immediately, no dark flash */
+.page-curtain.is-early .curtain-bg {
+    transform: translateY(0%);
+    transition: none;
+}
+
 /* Primary White Curtain Panel (Slides Up From Bottom - 850ms) */
 .curtain-bg {
     position: absolute;
