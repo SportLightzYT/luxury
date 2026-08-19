@@ -184,10 +184,15 @@
             window.navigateToPage(href);
         });
 
-        // Browser Back / Forward bfcache restore
+        // Browser Back / Forward bfcache restore (only clean up on persisted restore,
+        // never interrupt a running entry animation on a normal page load)
         window.addEventListener('pageshow', (event) => {
             isTransitioning = false;
-            document.body.classList.remove('page-transitioning-out', 'page-transitioning-in', 'page-transition-animate-in');
+            if (event.persisted) {
+                document.body.classList.remove('page-transitioning-out', 'page-transitioning-in', 'page-transition-animate-in');
+                const earlyCurtain = document.getElementById('pageCurtain');
+                if (earlyCurtain) earlyCurtain.classList.remove('is-active', 'is-early');
+            }
         });
     }
 
